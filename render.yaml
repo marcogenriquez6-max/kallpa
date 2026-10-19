@@ -35,4 +35,4 @@ services:
     healthCheckPath: /
     envVars:
       - key: API_URL
-        value: http://kallpa-api.onrender.com
+        value: https://kallpa-api.onrender.com
