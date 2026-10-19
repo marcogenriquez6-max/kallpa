@@ -18,7 +18,8 @@ El repositorio incluye `render.yaml` (en la raíz) con dos servicios Docker:
 La base de datos vive en **Supabase** (Postgres gratis).
 
 1. Crear un proyecto en https://supabase.com y copiar la cadena de conexión:
-   *Connect → Session pooler → URI* (puerto 5432, agregar `?sslmode=require`).
+   *Connect → Session pooler → URI* (puerto 5432). El adaptador `pg` de Prisma
+   exige además `?uselibpqcompat=true&sslmode=require` al final de la URI.
 2. En https://render.com: **New → Blueprint**, conectar el repositorio y aplicar.
    Completar `DATABASE_URL` y `SEED_PASSWORD` cuando lo pida.
 3. Al arrancar, la API aplica las migraciones (`prisma migrate deploy`) y siembra
