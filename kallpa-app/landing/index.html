@@ -7,7 +7,7 @@
   ================================================================
   [ ] Dominio real .......... "https://kallpa.bo/" (aquí, canonical, og:url,
                               JSON-LD, y en sitemap.xml y robots.txt)
-  [ ] Teléfono / WhatsApp ... "59170000000", "+59170000000" y "7X XXX XXX"
+  [x] Teléfono / WhatsApp ... "59171119111", "+59171119111" y "711 19111"
   [ ] Dirección ............. "[Calle / Av., zona]"
   [ ] Correo ................ "[correo de contacto]"
   [ ] Redes sociales ........ enlaces de Facebook e Instagram (hoy href="#")
@@ -58,7 +58,7 @@
   "url": "https://kallpa.bo/",
   "image": ["https://kallpa.bo/img/og-kallpa.jpg"],
   "logo": "https://kallpa.bo/img/kallpa-icono.png",
-  "telephone": "+59170000000",
+  "telephone": "+59171119111",
   "email": "[correo de contacto]",
   "priceRange": "$$",
   "currenciesAccepted": "BOB",
@@ -397,11 +397,11 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
   <a class="logo" href="#inicio" aria-label="KALLPA — Eventos y Alta Cocina"><img class="lg-cla" src="img/kallpa-logo-claro.svg" alt="KALLPA — Eventos y Alta Cocina" width="710" height="645"><img class="lg-osc" src="img/kallpa-logo-oscuro.svg" alt="" width="710" height="645"></a>
   <nav class="mn" id="mn"><a href="#inicio">Inicio</a><a href="#nosotros">Nosotros</a><a href="#servicios">Servicios</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a><a class="mm" href="/sistema/">Iniciar sesión</a></nav>
   <!-- TODO: teléfono real -->
-  <div class="tel tc"><a href="tel:+59170000000">7X XXX XXX</a></div>
+  <div class="tel tc"><a href="tel:+59171119111">711 19111</a></div>
   <div class="tc"><a class="bt" href="#contacto">Cotizar</a></div>
   <!-- TODO: URL real del sistema interno (login de trabajadores) -->
   <a class="acc" href="/sistema/">Iniciar sesión</a>
-  <div class="mob">COTIZA AL<br><u>7X XXX XXX</u></div>
+  <div class="mob">COTIZA AL<br><u>711 19111</u></div>
   <button class="burger" id="bg" aria-label="Menú">☰</button>
 </div></header>
 
@@ -500,7 +500,7 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
     <h2 style="margin-top:37px">Ponte en contacto con Kallpa</h2>
     <!-- TODO: dirección, WhatsApp, correo y redes reales -->
     <div class="fi"><span>📍</span><div><h3>Ubicación</h3><p>[Calle / Av., zona], Oruro, Bolivia</p></div></div>
-    <div class="fi"><span>💬</span><div><h3>WhatsApp</h3><p><a href="tel:+59170000000">7X XXX XXX</a></p></div></div>
+    <div class="fi"><span>💬</span><div><h3>WhatsApp</h3><p><a href="tel:+59171119111">711 19111</a></p></div></div>
     <div class="fi"><span>✉️</span><div><h3>Correo</h3><p>[correo de contacto]</p></div></div>
     <div class="si"><a href="#">f</a><a href="#">in</a></div>
   </div>
@@ -530,8 +530,8 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
 <a class="up" id="up" href="#inicio" aria-label="Volver arriba">↑</a>
 
 <script>
-/* TODO: WhatsApp real, formato internacional sin "+" (ej. 59171234567) */
-var NUM="59170000000";
+/* WhatsApp de Kallpa, formato internacional sin "+" */
+var NUM="59171119111";
 var sl=[].slice.call(document.querySelectorAll(".sl")),dots=document.getElementById("dots"),i=0,tm;
 sl.forEach(function(_,k){var b=document.createElement("button");b.textContent="0"+(k+1);b.onclick=function(){go(k)};dots.appendChild(b)});
 function go(k){i=k;sl.forEach(function(s,j){s.classList.toggle("on",j==k);dots.children[j].classList.toggle("on",j==k)});clearInterval(tm);tm=setInterval(function(){go((i+1)%sl.length)},7000)}
