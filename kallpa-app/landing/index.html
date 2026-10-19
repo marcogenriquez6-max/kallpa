@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!--
+  ================================================================
+  PENDIENTES ANTES DE PUBLICAR — buscar "TODO" en este archivo
+  ================================================================
+  [ ] Dominio real .......... "https://kallpa.bo/" (aquí, canonical, og:url,
+                              JSON-LD, y en sitemap.xml y robots.txt)
+  [ ] Teléfono / WhatsApp ... "59170000000", "+59170000000" y "7X XXX XXX"
+  [ ] Dirección ............. "[Calle / Av., zona]"
+  [ ] Correo ................ "[correo de contacto]"
+  [ ] Redes sociales ........ enlaces de Facebook e Instagram (hoy href="#")
+  [ ] Ubicación en mapa ..... enlace real de Google Maps
+  [ ] Textos y fotos reales . los cuatro "valores" son provisionales
+  ================================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KALLPA — Catering y Eventos de Alta Cocina en Oruro, Bolivia</title>
+<meta name="description" content="Catering y alta cocina para eventos en Oruro, Bolivia. Menús Clásica, Reserva y Gran Reserva con guarniciones, postres, coctelería, bocaditos y servicio de garzones. Cocina propia y menús a medida. Cotiza tu evento.">
+<meta name="theme-color" content="#880042">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"></noscript>
+<link rel="icon" type="image/png" href="img/kallpa-icono.png">
+<link rel="apple-touch-icon" href="img/kallpa-icono.png">
+<link rel="preload" as="image" href="img/foto-1.webp" imagesrcset="img/foto-1-640.webp 640w, img/foto-1.webp 1280w" imagesizes="100vw" fetchpriority="high">
+<!-- SEO: reemplace https://kallpa.bo/ por su dominio real cuando lo tenga -->
+<link rel="canonical" href="https://kallpa.bo/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KALLPA — Eventos y Alta Cocina">
+<meta property="og:locale" content="es_BO">
+<meta property="og:title" content="KALLPA — Eventos y Alta Cocina · Oruro, Bolivia">
+<meta property="og:description" content="Alta cocina para tus eventos en Oruro, Bolivia. Menús Clásica, Reserva y Gran Reserva con guarniciones, postres, coctelería y servicio de garzones.">
+<meta property="og:image" content="img/og-kallpa.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="KALLPA — Eventos y Alta Cocina">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KALLPA — Eventos y Alta Cocina · Oruro, Bolivia">
+<meta name="twitter:description" content="Alta cocina para tus eventos en Oruro, Bolivia: menús Clásica, Reserva y Gran Reserva con guarniciones, postres, coctelería y servicio de garzones.">
+<meta name="twitter:image" content="img/og-kallpa.jpg">
+<meta property="og:url" content="https://kallpa.bo/">
+<meta name="geo.region" content="BO-O">
+<meta name="geo.placename" content="Oruro">
+<meta name="geo.position" content="-17.9833;-67.15">
+<meta name="ICBM" content="-17.9833, -67.15">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://kallpa.bo/#restaurant",
+  "name": "KALLPA — Eventos y Alta Cocina",
+  "description": "Catering y servicio de alta cocina para eventos sociales, folklóricos, académicos e institucionales en Oruro, Bolivia. Menús Clásica, Reserva y Gran Reserva, guarniciones, postres, coctelería, bocaditos y servicio de garzones.",
+  "url": "https://kallpa.bo/",
+  "image": ["https://kallpa.bo/img/og-kallpa.jpg"],
+  "logo": "https://kallpa.bo/img/kallpa-icono.png",
+  "telephone": "+59170000000",
+  "email": "[correo de contacto]",
+  "priceRange": "$$",
+  "currenciesAccepted": "BOB",
+  "paymentAccepted": "Efectivo, Transferencia",
+  "servesCuisine": ["Alta cocina", "Boliviana", "Catering"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "[Calle / Av., zona]",
+    "addressLocality": "Oruro",
+    "addressRegion": "Oruro",
+    "addressCountry": "BO"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": -17.9833, "longitude": -67.15 },
+  "areaServed": [{ "@type": "City", "name": "Oruro" }],
+  "sameAs": ["https://www.facebook.com/", "https://www.instagram.com/"],
+  "hasMenu": {
+    "@type": "Menu",
+    "name": "Menú para eventos",
+    "hasMenuSection": [
+      {
+        "@type": "MenuSection",
+        "name": "Líneas de menú",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Línea Clásica (pollo)" },
+          { "@type": "MenuItem", "name": "Línea Reserva (cerdo)" },
+          { "@type": "MenuItem", "name": "Línea Gran Reserva (res)" }
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Complementos",
+        "hasMenuItem": [
+          { "@type": "MenuItem", "name": "Guarniciones y ensaladas" },
+          { "@type": "MenuItem", "name": "Postres" },
+          { "@type": "MenuItem", "name": "Coctelería" },
+          { "@type": "MenuItem", "name": "Bocaditos" },
+          { "@type": "MenuItem", "name": "Servicio de garzones" }
+        ]
+      }
+    ]
+  },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Línea Clásica (pollo)" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Línea Reserva (cerdo)" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Línea Gran Reserva (res)" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Guarniciones, postres y coctelería" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Servicio de garzones" } }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué incluye un menú de KALLPA?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Cada menú parte de un plato de fondo de la línea elegida —Clásica (pollo), Reserva (cerdo) o Gran Reserva (res)— acompañado de guarniciones. Puedes complementarlo con postres, coctelería, bocaditos y servicio de garzones." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué tipos de evento cubren?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Atendemos eventos sociales, folklóricos, académicos e institucionales, con menús y servicio a la medida de cada celebración." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Trabajan en Oruro y alrededores?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sí, trabajamos en la ciudad de Oruro y alrededores. Escríbenos con la ubicación de tu evento y confirmamos la cobertura." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Puedo pedir un menú personalizado?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sí. Armamos tu menú según el número de invitados, la línea de platos y los complementos que prefieras. Cuéntanos tu idea y la cotizamos." }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo solicito una cotización?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Completa el formulario de contacto o escríbenos por WhatsApp. Te respondemos con una propuesta de menú y servicio para tu evento." }
+    }
+  ]
+}
+</script>
+<style>
+:root{--bg:#fff;--head:#1e293b;--menu:#64748b;--brand:#880042;--plum:#4d2339;--gold:#ffbc0d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161013;--head:#f3e9ee}}
+:root[data-theme="dark"]{--bg:#161013;--head:#f3e9ee}
+html{scroll-behavior:smooth;scroll-padding-top:calc(90px + env(safe-area-inset-top,0px))}
+*{box-sizing:border-box}
+@font-face{font-family:"Poppins Fallback";src:local("Arial");ascent-override:105%;descent-override:35%;line-gap-override:0%}
+body{margin:0;background:var(--bg);font-family:Poppins,"Poppins Fallback",system-ui,sans-serif;color:var(--head);line-height:1.6}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{margin:0;line-height:1.2}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.w{max-width:1140px;margin:0 auto;padding:0 20px}
+.bt{display:inline-block;background:var(--brand);color:#fff;padding:12px 28px;font:500 16px Poppins,sans-serif;border:0;cursor:pointer;border-radius:0}
+.dv{height:0;border-top:2.6px solid #fff;width:50%;margin:15px auto}
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg)}
+.hd{display:grid;grid-template-columns:1fr 2fr auto auto auto;align-items:center;min-height:90px;gap:12px}
+.logo{display:flex;align-items:center;justify-content:center}
+.logo img{height:60px;width:auto;display:block}
+.logo .lg-osc{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo .lg-cla{display:none}
+ :root:not([data-theme="light"]) .logo .lg-osc{display:block}}
+:root[data-theme="dark"] .logo .lg-cla{display:none}
+:root[data-theme="dark"] .logo .lg-osc{display:block}
+footer .logo img{height:96px}
+footer .logo .lg-cla{display:none}
+footer .logo .lg-osc{display:block}
+@media(max-width:860px){.logo img{height:50px}}
+.mn{display:flex;justify-content:flex-end}
+.mn a{padding:15px;font-weight:500;color:var(--menu);font-size:15px}
+.mn a:hover,.tel a:hover{color:var(--brand)}
+.tel a{color:var(--menu);font-weight:400;font-size:15px}
+.tc{text-align:center}
+.burger{display:none;background:none;border:0;font-size:26px;color:var(--brand);cursor:pointer}
+.mob{display:none;text-align:center;color:var(--brand);font-size:13px;font-weight:500;line-height:1.3}
+@media(max-width:860px){.hd{grid-template-columns:1fr 1fr 1fr}.mn,.tel,.tc,.acc{display:none}.mob{display:block}.burger{display:block;justify-self:end}
+ .mn.open{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:100%;background:var(--bg);box-shadow:0 8px 14px rgba(0,0,0,.15)}}
+/* hero */
+.hero{position:relative;height:min(78vh,620px);min-height:487px;overflow:hidden;color:#fff}
+.sl{position:absolute;inset:0;opacity:0;transition:opacity 1s;display:flex;align-items:center}
+.sl.on{opacity:1}
+.sl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;background:#140509}
+.sl::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#140509d9,#00000008 55%),linear-gradient(180deg,#00000010,#00000040 60%,#00000073)}
+.sl .w{position:relative;z-index:2;width:100%;padding-left:90px}
+.sl .eb{margin:0 0 8px;font-size:16px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.sl .hbt{margin-top:26px;background:var(--gold);color:#2b1020;font-weight:600}
+.bt:hover{filter:brightness(1.07)}
+.sl h2{font-size:clamp(34px,6vw,58px);font-weight:600;max-width:760px;margin-bottom:14px}
+.sl h2 b{color:var(--gold);font-weight:600}
+.sl p{font-size:clamp(17px,2.4vw,24px);font-weight:300;line-height:1.2;max-width:620px;margin:0}
+.dots{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;z-index:3}
+.dots button{background:none;border:0;color:var(--gold);font:600 13px Poppins;cursor:pointer;padding:0;opacity:.55;display:flex;align-items:center;gap:8px;flex-direction:row-reverse}
+.dots button:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.dots button.on{opacity:1}
+.soc{position:absolute;left:24px;bottom:34px;display:flex;flex-direction:column;gap:18px;z-index:3;font-weight:600;font-size:16px;writing-mode:vertical-rl;transform:rotate(180deg)}
+@media(max-width:700px){.sl .w{padding-left:50px}.soc{left:10px;font-size:13px}}
+/* nosotros */
+.nos{background:var(--plum);color:#fff;text-align:center;padding:100px 0;min-height:400px;display:flex;align-items:center}
+.nos h2{font-size:clamp(26px,4vw,40px);font-weight:500}
+.nos p{font-size:20px;font-weight:300;margin:0}
+.ban{min-height:284px;display:grid;place-items:center;text-align:center;padding:20px;color:#fff;background:linear-gradient(#1d121566,#1d1215b3),url("img/foto-5.webp") center 42%/cover no-repeat;background-color:#1d1215}
+.ban h2{font-size:clamp(28px,5vw,44px);font-weight:600;letter-spacing:1px}
+.val{padding:50px 0 0;text-align:center}
+.val h2{font-size:27px;font-weight:600}
+.val .sub{font-size:22px;font-weight:400;margin:0;color:var(--menu)}
+.val .dv{border-color:var(--head)}
+.vg{display:grid;grid-template-columns:repeat(4,1fr);margin:30px 0 50px;gap:0}
+.vg div{position:relative;overflow:hidden;border:10px solid var(--bg);min-height:430px;display:grid;place-items:center;color:#fff;font-size:26px;font-weight:600;letter-spacing:1px;text-align:center;padding:10px;text-shadow:0 3px 16px rgba(0,0,0,.65)}
+.vg div img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:#2b0a14;transition:transform .5s}
+.vg div::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(#2b0a1440,#2b0a1499)}
+.vg div span{position:relative;z-index:2}
+.vg div:hover img{transform:scale(1.06)}
+@media(max-width:860px){.vg{grid-template-columns:1fr 1fr}.vg div{min-height:230px}}
+/* servicios */
+.sv{background:var(--plum);color:#fff;text-align:center;padding:80px 0}
+.sv .w{max-width:1080px}
+.sv h2.t{font-size:clamp(34px,5vw,48px);font-weight:600;line-height:1.17}
+.sv .sub{font-size:22px;font-weight:400;margin:0 0 12px;color:#e9d9e2}
+.sv .ds{font-size:20px;margin:0 auto 8px;line-height:1.4;letter-spacing:.15px;max-width:760px}
+.sv .gl{display:flex;align-items:center;gap:16px;margin:40px 0 20px;color:var(--gold);font-size:14px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase}
+.sv .gl::before,.sv .gl::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(255,188,13,.55),transparent)}
+.cg{display:grid;gap:20px;text-align:left}
+.cg.lin{grid-template-columns:repeat(3,1fr)}
+.cg.com{grid-template-columns:repeat(3,1fr)}
+.cd{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);transition:transform .3s,box-shadow .3s}
+.cd:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.22)}
+.cd .im{position:relative;overflow:hidden;height:180px;background:#2b1020}
+.cd .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.cd .im::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(20,5,9,0) 45%,rgba(20,5,9,.55))}
+.cd .im span{position:absolute;left:12px;bottom:12px;z-index:2;width:44px;height:44px;display:grid;place-items:center;font-size:22px;border-radius:50%;background:rgba(20,5,9,.62);box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.cd:hover .im img{transform:scale(1.07)}
+.cg.lin .cd{border-top:3px solid var(--gold)}
+.cg.lin .cd .im{height:200px}
+.cg.com .cd .im{height:150px}
+.cd h3{font-size:24px;font-weight:400;color:#333;padding:24px 24px 0;margin-bottom:16px}
+.cd p{font-size:14px;line-height:1.617;color:#777;padding:0 24px;margin:0 0 20px}
+.cg.com .cd h3{font-size:19px;padding:20px 20px 0;margin-bottom:10px}
+.cg.com .cd p{font-size:13.5px;padding:0 20px;margin-bottom:18px}
+.sv .cta{margin:38px 0 18px;font-size:20px;color:#e9d9e2}
+.sv .bt{background:var(--gold);color:#2b1020;font-weight:600}
+@media(max-width:900px){.cg.lin,.cg.com{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.cg.lin,.cg.com{grid-template-columns:1fr}}
+/* galeria */
+.ga{padding:50px 0;text-align:center}
+.ga h2{font-size:clamp(34px,5vw,48px);font-weight:600;margin-bottom:24px}
+.tk{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:210px;gap:12px}
+.tk img{display:block;width:100%;height:100%;object-fit:cover;border-radius:2px;background:#2b0a14;transition:filter .4s,box-shadow .4s}
+.tk img:hover{filter:brightness(1.08);box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.tk img:nth-child(1),.tk img:nth-child(4){grid-row:span 2}
+@media(max-width:700px){.tk{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}}
+.cl{padding:50px 0;text-align:center}
+.cl h2{font-size:24px;font-weight:600}
+.cs{display:grid;grid-template-columns:repeat(4,1fr);gap:25px;margin-top:30px}
+.cs div{height:90px;border:2px solid var(--brand);display:grid;place-items:center;font-size:18px;font-weight:600;color:var(--brand)}
+@media(max-width:760px){.cs{grid-template-columns:1fr 1fr}}
+/* contacto */
+.ct{background:linear-gradient(#00000080,#00000080),linear-gradient(135deg,#4d2339,#880042 60%,#2b1020);color:#fff;padding:40px 0 20px}
+.cgd{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+@media(max-width:820px){.cgd{grid-template-columns:1fr}}
+.ct h2{font-size:24px;font-weight:600;color:#f9fafb;margin-bottom:20px}
+.fi{display:flex;align-items:center;gap:0;margin-bottom:8px}
+.fi span{flex:0 0 61px;height:61px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center;font-size:21px}
+.fi div{margin:15px 30px}
+.fi h3{font-size:21px;font-weight:600;margin-bottom:6px}
+.fi p{margin:0;font-size:15px}
+.si{display:flex;gap:29px;padding-left:10px;margin-top:14px}
+.si a{width:38px;height:38px;background:var(--gold);color:#fff;display:grid;place-items:center;font-weight:600;font-size:14px}
+form label{display:block;font-weight:500;margin:12px 0 4px}
+form input,form textarea{width:100%;background:#ffffff8c;border:1px solid #ffffffaa;border-radius:1px;padding:6px 8px;font:inherit;color:#111;height:30px}
+form textarea{height:90px}
+.ck{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.ck label{display:flex;gap:6px;align-items:center;font-weight:400;font-size:14px;margin:0}
+.ck input{width:auto;height:auto}
+.mp{height:400px;display:grid;place-items:center;text-align:center;background:#e5e3df;color:#555;font-size:15px}
+.mp a{color:var(--brand);font-weight:600;text-decoration:underline}
+/* footer */
+footer{background:var(--brand);color:#fff;padding:50px 0 20px;text-align:center}
+footer h2{font-size:22px;font-weight:600;margin:14px 0 6px}
+footer nav a{display:block;padding:8px;font-weight:400}
+footer nav a:hover{color:var(--gold)}
+footer hr{border:0;border-top:1px solid #fff;margin:18px 0}
+.wa{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:28px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:60}
+
+/* ===================== Mejoras visuales y de experiencia ===================== */
+:root{--brand-deep:#5c0030;--gold-2:#f0a500;--ink:#1b1418;--r:16px;--sh:0 22px 48px -22px rgba(43,16,32,.5),0 6px 18px -10px rgba(43,16,32,.28)}
+body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+::selection{background:var(--brand);color:#fff}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+img{max-width:100%}
+section[id],div[id]{scroll-margin-top:100px}
+/* header */
+header{background:var(--bg);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid rgba(136,0,66,.10);transition:box-shadow .3s}
+header.scrolled{box-shadow:0 14px 34px -22px rgba(43,16,32,.6)}
+.logo img{height:64px}
+.mn a{position:relative;transition:color .25s}
+.mn a:hover{color:var(--brand)}
+.mn a::after{content:"";position:absolute;left:15px;right:15px;bottom:9px;height:2px;background:linear-gradient(90deg,var(--gold),var(--brand));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.mn a:hover::after{transform:scaleX(1)}
+.acc{border:2px solid var(--brand);color:var(--brand);background:transparent;padding:9px 20px;border-radius:999px;font-weight:600;white-space:nowrap;justify-self:center;transition:background .25s,color .25s,transform .25s}
+.acc:hover{background:var(--brand);color:#fff;transform:translateY(-2px)}
+.mm{display:none}
+@media(max-width:860px){.mn .mm{display:block;color:var(--brand);font-weight:600}}
+/* botones */
+.bt{background:linear-gradient(135deg,var(--brand),var(--brand-deep));border-radius:999px;padding:13px 30px;box-shadow:0 16px 34px -18px rgba(136,0,66,.85);transition:transform .28s,box-shadow .28s,filter .28s;letter-spacing:.2px}
+.bt:hover{transform:translateY(-3px);box-shadow:0 24px 44px -20px rgba(136,0,66,.9);filter:none}
+.sl .hbt,.sv .bt{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#2b1020;box-shadow:0 18px 36px -18px rgba(240,165,0,.85)}
+/* hero */
+.sl img{transform:scale(1.04);transition:transform 8s ease-out}
+.sl.on img{transform:scale(1.14)}
+.sl::after{background:linear-gradient(90deg,#12040bd9,#12040b26 60%),linear-gradient(180deg,#12040b1a,#12040b26 55%,#12040b8c)}
+.sl .eb{display:inline-block;padding:6px 14px;border:1px solid rgba(255,188,13,.5);border-radius:999px;background:rgba(20,5,9,.35);backdrop-filter:blur(4px)}
+.cue{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;color:#fff;font-size:24px;line-height:1;opacity:.8;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,9px)}}
+.dots button{opacity:.5;transition:opacity .3s,transform .3s}
+.dots button.on{opacity:1;transform:scale(1.18)}
+/* nosotros */
+.nos{background:radial-gradient(circle at 16% 18%,rgba(255,188,13,.14),transparent 42%),radial-gradient(circle at 84% 82%,rgba(136,0,66,.45),transparent 48%),linear-gradient(135deg,#3a1b2c,#22101a)}
+.nos h2{font-size:clamp(28px,4.6vw,46px);line-height:1.2}
+.nos p{max-width:820px;margin:0 auto}
+/* banner */
+.ban{min-height:340px;background:linear-gradient(rgba(20,5,9,.4),rgba(20,5,9,.78)),url("img/foto-5.webp") center 45%/cover no-repeat;background-color:#1d1215}
+.ban h2{font-size:clamp(28px,5.6vw,56px);text-shadow:0 6px 30px rgba(0,0,0,.55)}
+/* divisores */
+.dv{border:0;height:3px;width:66px;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold-2));margin:16px auto}
+/* valores */
+.val{padding:64px 0 0}
+.vg{gap:16px}
+.vg>div{border:0;border-radius:var(--r);overflow:hidden;min-height:380px;box-shadow:var(--sh)}
+.vg>div span{font-size:clamp(20px,2.4vw,28px)}
+/* servicios */
+.sv{padding:90px 0}
+.cd{border-radius:var(--r);box-shadow:0 12px 30px -18px rgba(43,16,32,.5)}
+.cd:hover{transform:translateY(-6px);box-shadow:var(--sh)}
+.cg.lin .cd{box-shadow:var(--sh)}
+.sv .cta{margin:40px 0 20px;font-size:clamp(18px,2.2vw,22px)}
+/* galeria */
+.ga{padding:72px 0}
+.tk{gap:16px;grid-auto-rows:240px}
+.tk img{border-radius:12px;box-shadow:0 10px 26px -18px rgba(43,16,32,.5)}
+.tk img:hover{transform:scale(1.03)}
+@media(max-width:700px){.tk{grid-auto-rows:150px}}
+/* eventos */
+.cl{padding:72px 0}
+.cl h2{font-size:clamp(24px,3.6vw,34px)}
+.cs{gap:18px}
+.cs div{height:104px;border:1px solid rgba(136,0,66,.14);border-radius:var(--r);background:#fff;color:var(--brand);box-shadow:0 14px 30px -20px rgba(43,16,32,.5);transition:transform .3s,background .3s,color .3s}
+.cs div:hover{transform:translateY(-6px);background:linear-gradient(135deg,var(--brand),var(--brand-deep));color:#fff;border-color:transparent}
+/* contacto */
+.ct{background:linear-gradient(rgba(18,4,11,.35),rgba(18,4,11,.55)),linear-gradient(135deg,#4d2339,#880042 58%,#2b1020)}
+.ct h2{font-size:clamp(24px,3.4vw,32px)}
+.fi span{background:linear-gradient(135deg,var(--gold),var(--gold-2))}
+.si a{border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-2))}
+form input,form textarea{background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.6);border-radius:10px;padding:10px 12px;height:auto;color:var(--ink);transition:border-color .2s,box-shadow .2s}
+form input:focus,form textarea:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,188,13,.35)}
+form label{margin-top:14px}
+/* mapa */
+.mp{background:linear-gradient(135deg,#efeae4,#e2ddd6);color:#5b5560}
+/* footer */
+footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
+/* whatsapp */
+.wa{animation:wa 2.6s infinite}
+@keyframes wa{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+/* volver arriba */
+.up{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:46px;height:46px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:22px;box-shadow:var(--sh);z-index:60;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s,transform .3s}
+.up.show{opacity:1;pointer-events:auto;transform:none}
+/* franja destacada */
+.stats{background:linear-gradient(135deg,#22101a,#4d2339);color:#fff}
+.stats .w{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding:36px 20px;text-align:center}
+.stats b{display:block;color:var(--gold);font-weight:600;font-size:clamp(18px,2.4vw,24px);margin-bottom:4px}
+.stats span{font-size:14px;opacity:.82;line-height:1.4}
+@media(max-width:760px){.stats .w{grid-template-columns:1fr 1fr;gap:26px}}
+/* preguntas frecuentes */
+.faq{padding:76px 0;text-align:center}
+.faq h2{font-size:clamp(28px,4.6vw,46px);font-weight:600}
+.q{max-width:840px;margin:26px auto 0;text-align:left}
+.q details{background:#fff;border:1px solid rgba(136,0,66,.14);border-radius:14px;margin:12px 0;overflow:hidden;box-shadow:0 12px 30px -24px rgba(43,16,32,.6)}
+.q summary{cursor:pointer;padding:18px 22px;font-weight:500;color:#33212b;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.q summary::-webkit-details-marker{display:none}
+.q summary::after{content:"+";color:var(--brand);font-weight:600;font-size:20px}
+.q details[open] summary{color:var(--brand)}
+.q details[open] summary::after{content:"–"}
+.q p{margin:0;padding:0 22px 18px;color:#5b5560;font-size:15px;line-height:1.65}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .q p{color:#cbbfc6}}
+/* aparición al hacer scroll */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,.7,.3,1),transform .7s cubic-bezier(.22,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media(max-width:860px){.logo img{height:56px}}
+</style>
+</head>
+<body>
+<header><div class="w hd">
+  <a class="logo" href="#inicio" aria-label="KALLPA — Eventos y Alta Cocina"><img class="lg-cla" src="img/kallpa-logo-claro.svg" alt="KALLPA — Eventos y Alta Cocina" width="710" height="645"><img class="lg-osc" src="img/kallpa-logo-oscuro.svg" alt="" width="710" height="645"></a>
+  <nav class="mn" id="mn"><a href="#inicio">Inicio</a><a href="#nosotros">Nosotros</a><a href="#servicios">Servicios</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a><a class="mm" href="/sistema/">Iniciar sesión</a></nav>
+  <!-- TODO: teléfono real -->
+  <div class="tel tc"><a href="tel:+59170000000">7X XXX XXX</a></div>
+  <div class="tc"><a class="bt" href="#contacto">Cotizar</a></div>
+  <!-- TODO: URL real del sistema interno (login de trabajadores) -->
+  <a class="acc" href="/sistema/">Iniciar sesión</a>
+  <div class="mob">COTIZA AL<br><u>7X XXX XXX</u></div>
+  <button class="burger" id="bg" aria-label="Menú">☰</button>
+</div></header>
+
+<h1 class="sr">KALLPA — Eventos y Alta Cocina en Oruro, Bolivia</h1>
+<main>
+<div class="hero" id="inicio">
+  <div class="sl on"><img src="img/foto-1.webp" srcset="img/foto-1-640.webp 640w, img/foto-1.webp 1280w" sizes="100vw" width="1280" height="960" alt="Alta cocina de KALLPA para eventos" fetchpriority="high" decoding="async"><div class="w"><p class="eb">Eventos y Alta Cocina · Oruro</p><h2><b>Alta cocina</b> para tus eventos</h2><p>La fuerza de los Andes, servida con distinción</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
+  <div class="sl"><img src="img/foto-3.webp" srcset="img/foto-3-640.webp 640w, img/foto-3.webp 1280w" sizes="100vw" width="1280" height="960" alt="Montaje de evento KALLPA" loading="lazy" decoding="async"><div class="w"><p class="eb">Sociales · Folklóricos · Institucionales</p><h2><b>Eventos</b> sociales, folklóricos e institucionales</h2><p>Menús completos con cocina propia y servicio de garzones para cada ocasión</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
+  <div class="sl"><img src="img/foto-5.webp" srcset="img/foto-5-640.webp 640w, img/foto-5.webp 960w" sizes="100vw" width="960" height="1280" alt="Mesa servida por KALLPA" loading="lazy" decoding="async"><div class="w"><p class="eb">Clásica · Reserva · Gran Reserva</p><h2><b>Tres líneas</b> de menú para elegir</h2><p>Clásica, Reserva y Gran Reserva, con guarniciones, postres, coctelería y bocaditos</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
+  <div class="dots" id="dots"></div>
+  <div class="soc"><span>Facebook</span><span>Instagram</span></div>
+  <div class="cue" aria-hidden="true">⌄</div>
+</div>
+
+<div class="stats"><div class="w">
+  <div><b>Cocina propia</b><span>Preparado en nuestra cocina</span></div>
+  <div><b>3 líneas de menú</b><span>Clásica · Reserva · Gran Reserva</span></div>
+  <div><b>Servicio de garzones</b><span>Atención por mesa en tu evento</span></div>
+  <div><b>Menús a medida</b><span>Según tu evento e invitados</span></div>
+</div></div>
+
+<section class="nos" id="nosotros"><div class="w">
+  <h2>Un servicio único, para un momento único</h2><div class="dv"></div>
+  <p>KALLPA — Eventos y Alta Cocina nace en Oruro para llevar la fuerza de los Andes a tu mesa: menús de pollo, cerdo y res preparados con insumos seleccionados y servidos con distinción.</p>
+</div></section>
+
+<div class="ban"><h2>Eventos y Alta Cocina en Oruro, Bolivia</h2></div>
+
+<section class="val"><div class="w">
+  <h2>Alta cocina para cada ocasión</h2><div class="dv"></div>
+  <p class="sub">Nuestros Valores, nuestra Misión y nuestros Servicios se distinguen por:</p>
+  <div class="vg">
+    <div><img src="img/foto-1-640.webp" width="640" height="480" alt="Evento servido con puntualidad por KALLPA" loading="lazy" decoding="async"><span>Puntualidad</span></div>
+    <div><img src="img/foto-2-640.webp" width="640" height="480" alt="Servicio personalizado de KALLPA" loading="lazy" decoding="async"><span>Servicio personalizado</span></div>
+    <div><img src="img/foto-4-640.webp" width="640" height="480" alt="Pasión por la cocina en KALLPA" loading="lazy" decoding="async"><span>Pasión</span></div>
+    <div><img src="img/foto-5-640.webp" width="640" height="853" alt="Calidad de KALLPA" loading="lazy" decoding="async"><span>Calidad</span></div>
+  </div>
+</div></section>
+
+<section class="sv" id="servicios"><div class="w">
+  <h2 class="t">Nuestros servicios</h2><div class="dv"></div>
+  <p class="sub">Menús completos para tu evento</p>
+  <p class="ds">Elige tu línea de menú y complementa con guarniciones, postres, coctelería y servicio. Nosotros nos encargamos del resto.</p>
+
+  <h3 class="gl">Líneas de menú</h3>
+  <div class="cg lin">
+    <div class="cd"><div class="im"><img src="img/svc-clasica-400.webp" srcset="img/svc-clasica-400.webp 400w, img/svc-clasica.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Plato de fondo de la Línea Clásica de KALLPA, a base de pollo" loading="lazy" decoding="async"><span>🍗</span></div><h3>Línea Clásica</h3><p>Nuestros platos de fondo a base de pollo: sabor casero con presentación de banquete, ideales para eventos grandes.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-reserva-400.webp" srcset="img/svc-reserva-400.webp 400w, img/svc-reserva.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Plato de fondo de la Línea Reserva de KALLPA, a base de cerdo" loading="lazy" decoding="async"><span>🥩</span></div><h3>Línea Reserva</h3><p>Platos de fondo a base de cerdo, preparados con técnica y sazón para una mesa más especial.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-gran-reserva-400.webp" srcset="img/svc-gran-reserva-400.webp 400w, img/svc-gran-reserva.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Plato de fondo de la Línea Gran Reserva de KALLPA, a base de res" loading="lazy" decoding="async"><span>🍖</span></div><h3>Línea Gran Reserva</h3><p>Nuestra selección premium a base de res, para celebraciones que merecen lo mejor.</p></div>
+  </div>
+
+  <h3 class="gl">Complementa tu evento</h3>
+  <div class="cg com">
+    <div class="cd"><div class="im"><img src="img/svc-guarniciones-400.webp" srcset="img/svc-guarniciones-400.webp 400w, img/svc-guarniciones.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Guarniciones y ensaladas frescas de KALLPA" loading="lazy" decoding="async"><span>🥗</span></div><h3>Guarniciones y Ensaladas</h3><p>Acompañamientos frescos y de temporada para completar cada plato de fondo.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-postres-400.webp" srcset="img/svc-postres-400.webp 400w, img/svc-postres.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Postres elaborados en la cocina de KALLPA" loading="lazy" decoding="async"><span>🍰</span></div><h3>Postres</h3><p>Cierre dulce para tu menú, elaborado en cocina propia.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-cocteleria-400.webp" srcset="img/svc-cocteleria-400.webp 400w, img/svc-cocteleria.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Coctelería y bebidas de KALLPA para eventos" loading="lazy" decoding="async"><span>🍸</span></div><h3>Coctelería</h3><p>Barra de bebidas y cócteles para recibir y brindar con tus invitados.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-bocaditos-400.webp" srcset="img/svc-bocaditos-400.webp 400w, img/svc-bocaditos.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Bocaditos para recepciones y brindis de KALLPA" loading="lazy" decoding="async"><span>🥂</span></div><h3>Bocaditos</h3><p>Pequeñas obras de sabor para la recepción, el brindis o los eventos de pie.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-garzones-400.webp" srcset="img/svc-garzones-400.webp 400w, img/svc-garzones.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Servicio de garzones de KALLPA" loading="lazy" decoding="async"><span>🤵</span></div><h3>Servicio de Garzones</h3><p>Personal de servicio uniformado, en proporción al número de invitados, para atender cada mesa.</p></div>
+    <div class="cd"><div class="im"><img src="img/svc-eventos-400.webp" srcset="img/svc-eventos-400.webp 400w, img/svc-eventos.webp 800w" sizes="(max-width:600px) 92vw, (max-width:900px) 45vw, 320px" width="800" height="600" alt="Montaje de eventos a medida de KALLPA" loading="lazy" decoding="async"><span>🎉</span></div><h3>Eventos a Medida</h3><p>Sociales, folklóricos, académicos e institucionales: armamos el menú y el servicio según tu evento.</p></div>
+  </div>
+
+  <p class="cta">¿No sabes qué línea elegir? Te ayudamos a armar el menú ideal.</p>
+  <a class="bt" href="#contacto">Solicita tu cotización</a>
+</div></section>
+
+<section class="ga"><div class="w">
+  <h2>Galería</h2>
+  <div class="tk">
+    <img src="img/foto-1-640.webp" width="640" height="480" alt="Montaje de evento KALLPA" loading="lazy" decoding="async">
+    <img src="img/foto-2-640.webp" width="640" height="480" alt="Plato de fondo KALLPA" loading="lazy" decoding="async">
+    <img src="img/foto-3-640.webp" width="640" height="480" alt="Mesa servida KALLPA" loading="lazy" decoding="async">
+    <img src="img/foto-4-640.webp" width="640" height="480" alt="Coctelería KALLPA" loading="lazy" decoding="async">
+    <img src="img/foto-5-640.webp" width="640" height="853" alt="Postres KALLPA" loading="lazy" decoding="async">
+    <img src="img/foto-1-640.webp" width="640" height="480" alt="Servicio de garzones KALLPA" loading="lazy" decoding="async">
+  </div>
+</div></section>
+
+<section class="cl"><div class="w">
+  <h2>Para cada tipo de evento</h2>
+  <div class="cs"><div>Sociales</div><div>Folklóricos</div><div>Académicos</div><div>Institucionales</div></div>
+</div></section>
+
+<section class="faq" id="faq"><div class="w">
+  <h2>Preguntas frecuentes</h2><div class="dv"></div>
+  <div class="q">
+    <details><summary>¿Qué incluye un menú de KALLPA?</summary><p>Cada menú parte de un plato de fondo de la línea elegida —Clásica (pollo), Reserva (cerdo) o Gran Reserva (res)— acompañado de guarniciones. Puedes complementarlo con postres, coctelería, bocaditos y servicio de garzones.</p></details>
+    <details><summary>¿Qué tipos de evento cubren?</summary><p>Atendemos eventos sociales, folklóricos, académicos e institucionales, con menús y servicio a la medida de cada celebración.</p></details>
+    <details><summary>¿Trabajan en Oruro y alrededores?</summary><p>Sí, trabajamos en la ciudad de Oruro y alrededores. Escríbenos con la ubicación de tu evento y confirmamos la cobertura.</p></details>
+    <details><summary>¿Puedo pedir un menú personalizado?</summary><p>Sí. Armamos tu menú según el número de invitados, la línea de platos y los complementos que prefieras. Cuéntanos tu idea y la cotizamos.</p></details>
+    <details><summary>¿Cómo pido una cotización?</summary><p>Completa el formulario o escríbenos por WhatsApp y armamos juntos tu evento.</p></details>
+  </div>
+</div></section>
+
+<section class="ct" id="contacto"><div class="w cgd">
+  <div>
+    <h2 style="margin-top:37px">Ponte en contacto con Kallpa</h2>
+    <!-- TODO: dirección, WhatsApp, correo y redes reales -->
+    <div class="fi"><span>📍</span><div><h3>Ubicación</h3><p>[Calle / Av., zona], Oruro, Bolivia</p></div></div>
+    <div class="fi"><span>💬</span><div><h3>WhatsApp</h3><p><a href="tel:+59170000000">7X XXX XXX</a></p></div></div>
+    <div class="fi"><span>✉️</span><div><h3>Correo</h3><p>[correo de contacto]</p></div></div>
+    <div class="si"><a href="#">f</a><a href="#">in</a></div>
+  </div>
+  <form id="f">
+    <label>Nombre *</label><input id="n" required>
+    <label>Correo electrónico</label><input id="m" type="email">
+    <label>Celular *</label><input id="t" inputmode="tel" required>
+    <label>Institución o grupo (opcional)</label><input id="e">
+    <label>Servicio a cotizar</label><div class="ck" id="svc"></div>
+    <label>Comentarios *</label><textarea id="c"></textarea>
+    <a class="bt" id="w" href="#" target="_blank" rel="noopener" style="margin-top:14px">Enviar</a>
+  </form>
+</div></section>
+
+<!-- TODO: enlace real de Google Maps de la ubicación -->
+<div class="mp"><div>🗺️<br>Mapa de ubicación<br><a href="https://www.google.com/maps" target="_blank" rel="noopener">Abrir en Google Maps</a></div></div>
+</main>
+
+<footer><div class="w">
+  <a class="logo" href="#inicio" aria-label="KALLPA — Eventos y Alta Cocina"><img class="lg-cla" src="img/kallpa-logo-claro.svg" alt="KALLPA — Eventos y Alta Cocina" width="710" height="645"><img class="lg-osc" src="img/kallpa-logo-oscuro.svg" alt="" width="710" height="645"></a>
+  <h2>Menú de navegación</h2>
+  <nav><a href="#inicio">Inicio</a><a href="#nosotros">Nosotros</a><a href="#servicios">Servicios</a><a href="#faq">Preguntas frecuentes</a><a href="#contacto">Contacto</a><a href="/sistema/">Iniciar sesión</a></nav>
+  <hr>
+  <p style="margin:0">© 2026 KALLPA — Eventos y Alta Cocina · Oruro, Bolivia<br>Todos los derechos reservados.</p>
+</div></footer>
+<a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+<a class="up" id="up" href="#inicio" aria-label="Volver arriba">↑</a>
+
+<script>
+/* TODO: WhatsApp real, formato internacional sin "+" (ej. 59171234567) */
+var NUM="59170000000";
+var sl=[].slice.call(document.querySelectorAll(".sl")),dots=document.getElementById("dots"),i=0,tm;
+sl.forEach(function(_,k){var b=document.createElement("button");b.textContent="0"+(k+1);b.onclick=function(){go(k)};dots.appendChild(b)});
+function go(k){i=k;sl.forEach(function(s,j){s.classList.toggle("on",j==k);dots.children[j].classList.toggle("on",j==k)});clearInterval(tm);tm=setInterval(function(){go((i+1)%sl.length)},7000)}
+go(0);
+document.getElementById("bg").onclick=function(){document.getElementById("mn").classList.toggle("open")};
+document.getElementById("mn").onclick=function(){this.classList.remove("open")};
+var S=["Línea Clásica (pollo)","Línea Reserva (cerdo)","Línea Gran Reserva (res)","Coctelería","Bocaditos","Postres","Servicio de garzones","Evento social","Evento folklórico","Evento académico","Evento institucional","Otro (Comentarios)"];
+var box=document.getElementById("svc");
+box.innerHTML=S.map(function(s){return '<label><input type="checkbox" value="'+s+'">'+s+'</label>'}).join("");
+function upd(){
+  var sel=[].slice.call(box.querySelectorAll("input:checked")).map(function(x){return x.value}).join(", ");
+  var msg="Hola Kallpa, soy "+(n.value||"…")+(e.value?" de "+e.value:"")+". Quiero cotizar: "+(sel||"un evento")+". "+(c.value||"")+" Celular: "+(t.value||"…");
+  w.href="https://wa.me/"+NUM+"?text="+encodeURIComponent(msg);
+}
+document.getElementById("f").addEventListener("input",upd);upd();
+document.getElementById("wa").href="https://wa.me/"+NUM+"?text="+encodeURIComponent("Hola Kallpa, quiero más información sobre sus menús para eventos.");
+
+/* header, aparición al hacer scroll y volver arriba */
+(function(){
+  var hd=document.querySelector("header"),up=document.getElementById("up");
+  function onScroll(){var y=window.pageYOffset||document.documentElement.scrollTop;hd.classList.toggle("scrolled",y>10);if(up)up.classList.toggle("show",y>600);}
+  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+  var sel=document.querySelectorAll(".nos,.stats,.val,.sv,.ga,.cl,.faq,.ct,.ban,.mp");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{rootMargin:"0px 0px -12% 0px",threshold:.08});
+    [].slice.call(sel).forEach(function(t){t.classList.add("rv");io.observe(t);});
+  }
+  if(up){up.addEventListener("click",function(e){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"});});}
+})();
+</script>
+</body>
+</html>

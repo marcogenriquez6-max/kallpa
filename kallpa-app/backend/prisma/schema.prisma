@@ -1,0 +1,588 @@
+// =====================================================================
+// KALLPA — Eventos y Alta Cocina · Sistema de Gestión
+// Modelo de datos v0.1 (PostgreSQL + Prisma)
+// =====================================================================
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Prisma 7: la URL de conexión se define en prisma.config.ts
+}
+
+// ---------------------------------------------------------------------
+// 1. USUARIOS, ROLES Y AUDITORÍA
+// ---------------------------------------------------------------------
+
+enum Rol {
+  GERENTE               // Maribel: contratos, finanzas, administración
+  GERENTE_GASTRONOMICO  // Percy: catálogo, fichas técnicas, solicitudes
+  LOGISTICA             // Victor, Alex, Paola, Marina: compras y entrega
+  COCINA                // Producción y control de temperaturas
+  CONSULTA              // Socio en modo solo lectura
+}
+
+model Usuario {
+  id           String   @id @default(uuid())
+  nombre       String
+  email        String   @unique
+  passwordHash String
+  rol          Rol
+  activo       Boolean  @default(true)
+  debeCambiarPassword Boolean @default(true)
+  ultimoAcceso DateTime?
+  persona      Persona? @relation(fields: [personaId], references: [id])
+  personaId    String?  @unique
+  creadoEn     DateTime @default(now())
+
+  contratosRegistrados Contrato[]          @relation("ContratoRegistradoPor")
+  solicitudes          SolicitudInsumos[]  @relation("SolicitudCreadaPor")
+  solicitudesAprobadas SolicitudInsumos[]  @relation("SolicitudAprobadaPor")
+  compras              Compra[]
+  entregasRealizadas   EntregaInsumos[]    @relation("EntregadoPor")
+  entregasRecibidas    EntregaInsumos[]    @relation("RecibidoPor")
+  temperaturas         ControlTemperatura[]
+  produccion           RegistroProduccion[]
+  gastos               Gasto[]
+  bitacora             Bitacora[]
+}
+
+// Registro inalterable de cada acción relevante (solo inserción).
+model Bitacora {
+  id             BigInt   @id @default(autoincrement())
+  entidad        String   // "Contrato", "SolicitudInsumos", "Compra"...
+  entidadId      String
+  accion         String   // "CREAR", "CAMBIAR_ESTADO", "EDITAR", "ANULAR"
+  estadoAnterior String?
+  estadoNuevo    String?
+  detalle        Json?
+  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId      String
+  fechaHora      DateTime @default(now())
+
+  @@index([entidad, entidadId])
+}
+
+// Valores de negocio editables sin tocar código:
+// TARIFA_CHEF_DIA=500, TARIFA_SOCIO_PLATO=1.5, TARIFA_PASANTE_DIA=100,
+// INVITADOS_POR_GARZON=25, PLATOS_MIN=100, PLATOS_MAX=500,
+// ANTICIPO_PORCENTAJE=50, DIAS_CONFIRMACION=5, HORAS_SALDO=72
+model Parametro {
+  clave       String   @id
+  valor       String
+  descripcion String?
+  actualizado DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------
+// 2. INSUMOS Y UNIDADES
+// ---------------------------------------------------------------------
+
+enum TipoUnidad {
+  MASA     // base: gramo
+  VOLUMEN  // base: mililitro
+  CONTEO   // base: unidad
+}
+
+// G, KG, LIBRA, ARROBA, CUARTILLA, ML, L, UNID, TALLO, ATADO, LATA...
+model UnidadMedida {
+  codigo     String     @id
+  nombre     String
+  tipo       TipoUnidad
+  factorBase Decimal    @db.Decimal(12, 4) // KG=1000, ARROBA=11500, CUARTILLA=2875
+
+  insumosBase   Insumo[]           @relation("UnidadBase")
+  insumosCompra Insumo[]           @relation("UnidadCompra")
+  fichaLineas   FichaTecnicaLinea[]
+  solicitudItems SolicitudItem[]
+  compraItems   CompraItem[]
+}
+
+model CategoriaInsumo {
+  id      Int      @id @default(autoincrement())
+  nombre  String   @unique // Proteínas, Vegetales y frutas, Lácteos, Abarrotes...
+  orden   Int      @default(0)
+  insumos Insumo[]
+}
+
+model Insumo {
+  id                   String          @id @default(uuid())
+  nombre               String          @unique
+  categoria            CategoriaInsumo @relation(fields: [categoriaId], references: [id])
+  categoriaId          Int
+  unidadBase           UnidadMedida    @relation("UnidadBase", fields: [unidadBaseCodigo], references: [codigo])
+  unidadBaseCodigo     String
+  unidadCompra         UnidadMedida?   @relation("UnidadCompra", fields: [unidadCompraCodigo], references: [codigo])
+  unidadCompraCodigo   String?
+  // Para insumos contados por unidad (pechuga, huevo): peso medio en gramos
+  pesoUnitarioGramos   Decimal?        @db.Decimal(10, 2)
+  especificacionHabitual String?
+  marcaPreferida       String?
+  perecible            Boolean         @default(true)
+  requiereFrio         Boolean         @default(false)
+  stockActual          Decimal         @default(0) @db.Decimal(12, 3) // en unidad base
+  activo               Boolean         @default(true)
+
+  fichaLineas      FichaTecnicaLinea[]
+  proveedores      ProveedorInsumo[]
+  solicitudItems   SolicitudItem[]
+  compraItems      CompraItem[]
+}
+
+// ---------------------------------------------------------------------
+// 3. PROVEEDORES
+// ---------------------------------------------------------------------
+
+enum CondicionPago {
+  CONTADO
+  CREDITO_7
+  CREDITO_15
+  CREDITO_30
+}
+
+model Proveedor {
+  id              String        @id @default(uuid())
+  razonSocial     String
+  nombreContacto  String?
+  nitOCi          String?
+  telefono        String?
+  whatsapp        String?
+  direccion       String?
+  ubicacionMercado String?      // mercado, puesto o referencia
+  condicionPago   CondicionPago @default(CONTADO)
+  emiteFactura    Boolean       @default(false)
+  calificacion    Int?          // 1 a 5, actualizada tras cada entrega
+  observaciones   String?
+  activo          Boolean       @default(true)
+  creadoEn        DateTime      @default(now())
+
+  insumos ProveedorInsumo[]
+  compras Compra[]
+}
+
+// Historial de precios: alimenta el costeo teórico y alerta alzas.
+model ProveedorInsumo {
+  id            String       @id @default(uuid())
+  proveedor     Proveedor    @relation(fields: [proveedorId], references: [id])
+  proveedorId   String
+  insumo        Insumo       @relation(fields: [insumoId], references: [id])
+  insumoId      String
+  precioUnitario Decimal     @db.Decimal(12, 2) // por unidad base
+  fecha         DateTime     @default(now())
+
+  @@index([insumoId, fecha])
+}
+
+// ---------------------------------------------------------------------
+// 4. CATÁLOGO Y FICHAS TÉCNICAS
+// ---------------------------------------------------------------------
+
+enum TipoItemCatalogo {
+  PLATO_FONDO
+  GUARNICION
+  ENSALADA
+  POSTRE
+  COCTELERIA
+  BOCADITOS
+  SERVICIO      // garzón adicional, cargo fijo de servicio
+}
+
+enum LineaCatalogo {
+  CLASICA       // pollo
+  RESERVA       // cerdo
+  GRAN_RESERVA  // res
+}
+
+model ItemCatalogo {
+  id          String           @id @default(uuid())
+  codigo      String           @unique
+  nombre      String
+  descripcion String?
+  tipo        TipoItemCatalogo
+  linea       LineaCatalogo?
+  precioVenta Decimal          @db.Decimal(10, 2) // por persona/plato
+  activo      Boolean          @default(true)
+
+  fichas        FichaTecnica[]
+  contratoItems ContratoItem[]
+}
+
+// Versionada: cambiar la receta no altera contratos ya planificados.
+model FichaTecnica {
+  id             String       @id @default(uuid())
+  item           ItemCatalogo @relation(fields: [itemId], references: [id])
+  itemId         String
+  version        Int
+  vigente        Boolean      @default(true)
+  porcionGramos  Decimal?     @db.Decimal(8, 2)
+  procedimiento  String?
+  creadoEn       DateTime     @default(now())
+
+  lineas FichaTecnicaLinea[]
+
+  @@unique([itemId, version])
+}
+
+model FichaTecnicaLinea {
+  id                 String       @id @default(uuid())
+  ficha              FichaTecnica @relation(fields: [fichaId], references: [id], onDelete: Cascade)
+  fichaId            String
+  insumo             Insumo       @relation(fields: [insumoId], references: [id])
+  insumoId           String
+  cantidadPorPorcion Decimal      @db.Decimal(12, 4) // neta, en la unidad indicada
+  unidad             UnidadMedida @relation(fields: [unidadCodigo], references: [codigo])
+  unidadCodigo       String
+  porcentajeMerma    Decimal      @default(0) @db.Decimal(5, 2)
+  aCriterio          Boolean      @default(false) // equivalente a "C/N"
+  especificacion     String?
+}
+
+// ---------------------------------------------------------------------
+// 5. CLIENTES, CONTRATOS Y PAGOS
+// ---------------------------------------------------------------------
+
+enum TipoCliente {
+  SOCIAL
+  FOLKLORICO
+  ACADEMICO
+  INSTITUCIONAL
+}
+
+model Cliente {
+  id          String      @id @default(uuid())
+  nombre      String
+  ci          String?
+  nit         String?     // preparado para facturación futura
+  razonSocial String?
+  telefono    String
+  email       String?
+  tipo        TipoCliente
+  creadoEn    DateTime    @default(now())
+
+  contratos Contrato[]
+}
+
+enum EstadoContrato {
+  COTIZACION
+  CONFIRMADO      // anticipo registrado
+  PLANIFICADO     // solicitud de insumos aprobada por el chef
+  EN_COMPRA
+  INSUMOS_ENTREGADOS
+  EN_PRODUCCION
+  SERVIDO
+  LIQUIDADO       // saldo cobrado, costos y remuneraciones cerrados
+  CANCELADO
+}
+
+model Contrato {
+  id                 String         @id @default(uuid())
+  codigo             String         @unique // KAL-CT-2026-0001
+  cliente            Cliente        @relation(fields: [clienteId], references: [id])
+  clienteId          String
+  registradoPor      Usuario        @relation("ContratoRegistradoPor", fields: [registradoPorId], references: [id])
+  registradoPorId    String
+  tipoEvento         String         // matrimonio, preste, graduación...
+  fechaEvento        DateTime       @db.Date
+  horaServicio       String         // "13:00"
+  lugar              String
+  direccion          String?
+  numeroPlatos       Int            // contratado inicialmente
+  numeroPlatosFinal  Int?           // confirmado 5 días antes
+  fechaConfirmacion  DateTime?
+  garzonesIncluidos  Int            // calculado: platos / 25
+  precioTotal        Decimal        @db.Decimal(12, 2)
+  estado             EstadoContrato @default(COTIZACION)
+  requisitosEspeciales String?      // alergias, vegetarianos, protocolo
+  observaciones      String?
+  creadoEn           DateTime       @default(now())
+  actualizadoEn      DateTime       @updatedAt
+
+  items          ContratoItem[]
+  pagos          Pago[]
+  solicitudes    SolicitudInsumos[]
+  produccion     RegistroProduccion[]
+  temperaturas   ControlTemperatura[]
+  gastos         Gasto[]
+  remuneraciones RemuneracionEvento[]
+
+  @@index([fechaEvento])
+  @@index([estado])
+}
+
+model ContratoItem {
+  id             String       @id @default(uuid())
+  contrato       Contrato     @relation(fields: [contratoId], references: [id], onDelete: Cascade)
+  contratoId     String
+  item           ItemCatalogo @relation(fields: [itemId], references: [id])
+  itemId         String
+  cantidad       Int          // platos o personas
+  precioUnitario Decimal      @db.Decimal(10, 2) // congelado al contratar
+  subtotal       Decimal      @db.Decimal(12, 2)
+}
+
+enum TipoPago {
+  ANTICIPO
+  SALDO
+  ADICIONAL
+  DEVOLUCION
+}
+
+model Pago {
+  id          String   @id @default(uuid())
+  contrato    Contrato @relation(fields: [contratoId], references: [id])
+  contratoId  String
+  tipo        TipoPago
+  monto       Decimal  @db.Decimal(12, 2)
+  metodo      String   // efectivo, transferencia, QR
+  fecha       DateTime @default(now())
+  comprobante String?  // URL de la imagen
+}
+
+// ---------------------------------------------------------------------
+// 6. SOLICITUD DE INSUMOS (formulario F-001 digitalizado)
+// ---------------------------------------------------------------------
+
+enum EstadoSolicitud {
+  BORRADOR        // generada por la explosión de insumos
+  APROBADA        // el chef la revisó y la firmó
+  EN_COMPRA
+  ENTREGADA_PARCIAL
+  ENTREGADA
+  ANULADA
+}
+
+enum OrigenInsumo {
+  COMPRAR
+  STOCK           // reemplaza "NO COMPRAR"
+  A_CRITERIO      // reemplaza "C/N"
+}
+
+model SolicitudInsumos {
+  id                   String          @id @default(uuid())
+  folio                String          @unique // KAL-SI-2026-0001
+  contrato             Contrato        @relation(fields: [contratoId], references: [id])
+  contratoId           String
+  version              Int             @default(1) // nueva versión si cambia el nº de platos
+  platosBase           Int             // platos usados para el cálculo
+  creadaPor            Usuario         @relation("SolicitudCreadaPor", fields: [creadaPorId], references: [id])
+  creadaPorId          String
+  fechaHoraSolicitud   DateTime        @default(now())
+  fechaHoraRequerida   DateTime        // cuándo debe estar en cocina
+  aprobadaPor          Usuario?        @relation("SolicitudAprobadaPor", fields: [aprobadaPorId], references: [id])
+  aprobadaPorId        String?
+  fechaHoraAprobacion  DateTime?
+  estado               EstadoSolicitud @default(BORRADOR)
+  observaciones        String?
+
+  items    SolicitudItem[]
+  compras  Compra[]
+  entregas EntregaInsumos[]
+
+  @@unique([contratoId, version])
+}
+
+model SolicitudItem {
+  id                String           @id @default(uuid())
+  solicitud         SolicitudInsumos @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  solicitudId       String
+  insumo            Insumo           @relation(fields: [insumoId], references: [id])
+  insumoId          String
+  cantidadCalculada Decimal?         @db.Decimal(12, 3) // sugerida por el sistema
+  cantidad          Decimal?         @db.Decimal(12, 3) // definida por el chef; nula si A_CRITERIO
+  unidad            UnidadMedida     @relation(fields: [unidadCodigo], references: [codigo])
+  unidadCodigo      String
+  especificacion    String?          // laminado, pechuga, lata pequeña
+  marca             String?          // PIL, Grano de Oro
+  marcaObligatoria  Boolean          @default(false)
+  origen            OrigenInsumo     @default(COMPRAR)
+  observacion       String?
+
+  compraItems  CompraItem[]
+  entregaItems EntregaItem[]
+}
+
+// ---------------------------------------------------------------------
+// 7. COMPRAS Y ENTREGA EN COCINA
+// ---------------------------------------------------------------------
+
+enum TipoComprobante {
+  FACTURA
+  RECIBO
+  NOTA_VENTA
+  SIN_COMPROBANTE
+}
+
+model Compra {
+  id              String           @id @default(uuid())
+  solicitud       SolicitudInsumos @relation(fields: [solicitudId], references: [id])
+  solicitudId     String
+  proveedor       Proveedor        @relation(fields: [proveedorId], references: [id])
+  proveedorId     String
+  compradoPor     Usuario          @relation(fields: [compradoPorId], references: [id])
+  compradoPorId   String
+  fechaHora       DateTime         @default(now())
+  total           Decimal          @db.Decimal(12, 2)
+  tipoComprobante TipoComprobante  @default(SIN_COMPROBANTE)
+  comprobanteUrl  String?
+
+  items CompraItem[]
+}
+
+model CompraItem {
+  id              String        @id @default(uuid())
+  compra          Compra        @relation(fields: [compraId], references: [id], onDelete: Cascade)
+  compraId        String
+  solicitudItem   SolicitudItem @relation(fields: [solicitudItemId], references: [id])
+  solicitudItemId String
+  insumo          Insumo        @relation(fields: [insumoId], references: [id])
+  insumoId        String
+  cantidad        Decimal       @db.Decimal(12, 3)
+  unidad          UnidadMedida  @relation(fields: [unidadCodigo], references: [codigo])
+  unidadCodigo    String
+  precioUnitario  Decimal       @db.Decimal(12, 2)
+  subtotal        Decimal       @db.Decimal(12, 2)
+  marcaComprada   String?       // si difiere de la solicitada, se justifica
+  justificacion   String?
+}
+
+enum Conformidad {
+  CONFORME
+  CON_OBSERVACIONES
+  RECHAZADO
+}
+
+// Acta de recepción: "Observaciones en la entrega (calidad y cantidad)".
+model EntregaInsumos {
+  id             String           @id @default(uuid())
+  solicitud      SolicitudInsumos @relation(fields: [solicitudId], references: [id])
+  solicitudId    String
+  entregadoPor   Usuario          @relation("EntregadoPor", fields: [entregadoPorId], references: [id])
+  entregadoPorId String
+  recibidoPor    Usuario          @relation("RecibidoPor", fields: [recibidoPorId], references: [id])
+  recibidoPorId  String
+  fechaHora      DateTime         @default(now())
+  lugar          String
+  conformidad    Conformidad
+  observaciones  String?
+
+  items EntregaItem[]
+}
+
+model EntregaItem {
+  id                String         @id @default(uuid())
+  entrega           EntregaInsumos @relation(fields: [entregaId], references: [id], onDelete: Cascade)
+  entregaId         String
+  solicitudItem     SolicitudItem  @relation(fields: [solicitudItemId], references: [id])
+  solicitudItemId   String
+  cantidadRecibida  Decimal        @db.Decimal(12, 3)
+  conformidad       Conformidad
+  observacion       String?        // "pollo con olor", "faltó 1 kg"
+}
+
+// ---------------------------------------------------------------------
+// 8. PRODUCCIÓN E INOCUIDAD
+// ---------------------------------------------------------------------
+
+model RegistroProduccion {
+  id          String   @id @default(uuid())
+  contrato    Contrato @relation(fields: [contratoId], references: [id])
+  contratoId  String
+  etapa       String   // mise en place, cocción, emplatado, traslado, servicio
+  responsable Usuario  @relation(fields: [responsableId], references: [id])
+  responsableId String
+  fechaHora   DateTime @default(now())
+  observacion String?
+}
+
+enum PuntoControl {
+  RECEPCION
+  ALMACENAMIENTO
+  COCCION
+  ENFRIAMIENTO
+  TRANSPORTE
+  SERVICIO
+}
+
+model ControlTemperatura {
+  id               String       @id @default(uuid())
+  contrato         Contrato     @relation(fields: [contratoId], references: [id])
+  contratoId       String
+  punto            PuntoControl
+  alimento         String
+  temperaturaC     Decimal      @db.Decimal(5, 1)
+  fueraDeRango     Boolean      @default(false) // calculado por el servidor
+  accionCorrectiva String?
+  responsable      Usuario      @relation(fields: [responsableId], references: [id])
+  responsableId    String
+  fechaHora        DateTime     @default(now())
+}
+
+// ---------------------------------------------------------------------
+// 9. PERSONAL, REMUNERACIONES Y GASTOS
+// ---------------------------------------------------------------------
+
+enum TipoPersona {
+  SOCIO
+  PASANTE
+  GARZON_EXTERNO
+  COCINERO_APOYO
+}
+
+model Persona {
+  id                    String      @id @default(uuid())
+  nombre                String
+  ci                    String      @unique
+  telefono              String?
+  tipo                  TipoPersona
+  carnetSanitarioVence  DateTime?   @db.Date // alerta de vencimiento
+  activo                Boolean     @default(true)
+
+  usuario        Usuario?
+  remuneraciones RemuneracionEvento[]
+}
+
+enum ModalidadPago {
+  POR_DIA    // chef, pasantes
+  POR_PLATO  // gerencia y logística
+  FIJO
+}
+
+// Remuneración por evento: no es planilla laboral (ver contrato entre socios).
+model RemuneracionEvento {
+  id         String        @id @default(uuid())
+  contrato   Contrato      @relation(fields: [contratoId], references: [id])
+  contratoId String
+  persona    Persona       @relation(fields: [personaId], references: [id])
+  personaId  String
+  concepto   String        // "Chef principal", "Logística", "Pasante cocina"
+  modalidad  ModalidadPago
+  cantidad   Decimal       @db.Decimal(10, 2) // días o platos
+  tarifa     Decimal       @db.Decimal(10, 2)
+  monto      Decimal       @db.Decimal(12, 2)
+  pagado     Boolean       @default(false)
+  fechaPago  DateTime?
+}
+
+enum TipoGasto {
+  EVENTO   // vajilla alquilada, combustible, garrafas, desechables
+  FIJO     // servicios básicos, publicidad, telefonía, seguros
+}
+
+model Gasto {
+  id             String    @id @default(uuid())
+  tipo           TipoGasto
+  categoria      String
+  descripcion    String?
+  monto          Decimal   @db.Decimal(12, 2)
+  fecha          DateTime  @default(now())
+  contrato       Contrato? @relation(fields: [contratoId], references: [id])
+  contratoId     String?
+  comprobanteUrl String?
+  registradoPor  Usuario   @relation(fields: [registradoPorId], references: [id])
+  registradoPorId String
+}

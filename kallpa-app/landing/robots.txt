@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: reemplazar por el dominio real cuando lo tenga.
+Sitemap: https://kallpa.bo/sitemap.xml

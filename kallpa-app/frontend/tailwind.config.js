@@ -1,0 +1,76 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        // Neutros del sistema de diseño KALLPA (reemplaza la escala slate por defecto).
+        slate: {
+          50: '#f7f7f9',
+          100: '#f2f3f5',
+          200: '#e3e5ea',
+          300: '#d4d7de',
+          400: '#9aa0ab',
+          500: '#5b616e',
+          600: '#4d525d',
+          700: '#3a3e47',
+          800: '#24272e',
+          900: '#15171c',
+          950: '#0d0e12',
+        },
+        kallpa: {
+          50: '#fbf2f4',
+          100: '#f6e9eb',
+          200: '#f2ced3',
+          300: '#e7aab3',
+          400: '#dc7e8c',
+          500: '#d05b6b',
+          600: '#b53d4f',
+          700: '#7a1e2c',
+          800: '#5c1520',
+          900: '#4a111a',
+          950: '#2b0b11',
+        },
+        grafito: '#15171c',
+        'texto-2': '#5b616e',
+        linea: '#e3e5ea',
+        fondo: '#f2f3f5',
+        superficie: '#ffffff',
+        exito: '#1f6f4a',
+        'exito-suave': '#e5f2ea',
+        atencion: '#7a4f00',
+        'atencion-suave': '#fbf0d9',
+        brand: {
+          100: '#f6e9eb',
+          DEFAULT: '#7a1e2c',
+          dark: '#5c1520',
+          deep: '#4a111a',
+          600: '#5c1520',
+          400: '#8f2534',
+        },
+        gold: {
+          DEFAULT: '#e0a800',
+          light: '#ffc63d',
+        },
+      },
+      fontFamily: {
+        sans: ['Manrope', 'system-ui', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+        title: ['"Bricolage Grotesque"', 'Manrope', 'system-ui', 'sans-serif'],
+      },
+      borderRadius: {
+        sm: '10px',
+        md: '12px',
+        DEFAULT: '12px',
+        lg: '12px',
+        xl: '18px',
+        '2xl': '24px',
+        '3xl': '28px',
+      },
+      boxShadow: {
+        kallpa: '0 10px 30px -18px rgba(21,23,28,0.35)',
+        kallpaElev: '0 24px 48px -24px rgba(21,23,28,0.45)',
+      },
+    },
+  },
+  plugins: [],
+}
