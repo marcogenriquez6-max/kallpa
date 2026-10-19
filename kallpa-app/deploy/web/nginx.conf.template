@@ -1,5 +1,5 @@
 # Sitio público de Kallpa para Render. Se sirve desde /etc/nginx/conf.d/
-# tras envsubst, que reemplaza ${API_URL} por la URL de la API (kallpa-api).
+# tras envsubst, que reemplaza ${API_ORIGIN} por la URL de la API (kallpa-api).
 server {
     listen 80;
     server_name _;
@@ -31,7 +31,7 @@ server {
     # API interna del sistema. /sistema/ la consume en el mismo origen,
     # así que no hay problemas de CORS.
     location /api/ {
-        proxy_pass ${API_URL};
+        proxy_pass ${API_ORIGIN};
         proxy_ssl_server_name on;
         proxy_http_version 1.1;
         proxy_set_header Host $proxy_host;

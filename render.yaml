@@ -37,8 +37,5 @@ services:
     dockerContext: ./kallpa-app
     healthCheckPath: /
     envVars:
-      - key: API_URL
-        fromService:
-          type: web
-          name: kallpa-api
-          envVarKey: RENDER_EXTERNAL_URL
+      - key: API_ORIGIN
+        value: https://kallpa-api.onrender.com

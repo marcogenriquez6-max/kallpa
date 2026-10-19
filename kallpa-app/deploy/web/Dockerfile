@@ -11,6 +11,7 @@ RUN cd frontend && npm run build
 FROM nginx:alpine
 COPY landing /usr/share/nginx/html
 COPY --from=frontend /app/landing/sistema /usr/share/nginx/html/sistema
-# envsubst reemplaza ${API_URL} al arrancar el contenedor
+# envsubst reemplaza ${API_ORIGIN} al arrancar el contenedor
+ENV API_ORIGIN=https://kallpa-api.onrender.com
 COPY deploy/web/nginx.conf.template /etc/nginx/templates/default.conf.template
 EXPOSE 80
