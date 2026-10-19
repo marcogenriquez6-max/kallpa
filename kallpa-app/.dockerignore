@@ -1,0 +1,6 @@
+# Contexto de build del sitio web (landing + panel /sistema/).
+**/node_modules
+**/dist
+.env
+**/.env
+landing/index.html.bak

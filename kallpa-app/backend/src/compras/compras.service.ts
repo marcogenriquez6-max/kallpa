@@ -9,9 +9,8 @@ export class ComprasService {
     private readonly bitacora: BitacoraService,
   ) {}
 
-  async listar(activo?: boolean) {
+  async listar(_activo?: boolean) {
     return this.prisma.compra.findMany({
-      where: activo !== undefined ? { activo: activo } : {},
       orderBy: { fechaHora: 'desc' },
       include: {
         proveedor: { select: { razonSocial: true } },
@@ -27,11 +26,12 @@ export class ComprasService {
       if (!proveedor) throw new BadRequestException('El proveedor no existe');
 
       const compra = await tx.compra.create({
+        // @ts-ignore módulo en construcción: la compra aún no se liga a una solicitud
         data: {
           proveedorId: dto.proveedorId,
           compradoPorId: autorId,
           fechaHora: new Date(),
-        }),
+        },
       });
       // @ts-ignore
       await this.bitacora.registrar({

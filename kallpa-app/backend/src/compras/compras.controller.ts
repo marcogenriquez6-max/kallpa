@@ -38,5 +38,6 @@ export class ComprasController {
     @Body() dto: { cantidad: number; proveedorInsumoId: string; observacion?: string },
     @UsuarioActual() autor: UsuarioSesion,
   ) {
-    return this.compras.recepcionar(compraId, dto.cantidad, dto.proveedorInsumoId, dto.observacion, autor.id);
+    return this.compras.recepcionar(compraId, dto.cantidad, dto.proveedorInsumoId, dto.observacion ?? '', autor.id);
   }
+}

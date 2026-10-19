@@ -1,7 +1,7 @@
 import React from 'react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Contrato } from '../types';
+import type { Contrato } from '../../types';
 
 interface ContratoPrintProps {
   contrato: Contrato;
@@ -14,10 +14,9 @@ export const ContratoPrint: React.FC<ContratoPrintProps> = ({ contrato }) => {
     const margin = 20;
 
     // Colores KALLPA
-    const grafito = [0x15, 0x17, 0x1C];
-    const vino = [0x7A, 0x1E, 0x2C];
-    const fondo = [0xF2, 0xF3, 0xF5];
-    const superficie = [0xFF, 0xFF, 0xFF];
+    const grafito: [number, number, number] = [0x15, 0x17, 0x1C];
+    const vino: [number, number, number] = [0x7A, 0x1E, 0x2C];
+    const fondo: [number, number, number] = [0xF2, 0xF3, 0xF5];
 
     // Título
     doc.setFillColor(...grafito);
@@ -74,14 +73,14 @@ export const ContratoPrint: React.FC<ContratoPrintProps> = ({ contrato }) => {
       `$${item.subtotal?.toLocaleString() || 'N/A'}`
     ]) || [];
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       startY: y + 7,
       head: [['Ítem', 'Cantidad', 'Precio Unit.', 'Subtotal']],
       body: filas,
       margin: { left: 15, right: 15 },
       theme: 'grid',
       headStyles: {
-        fill: [vino],
+        fillColor: vino,
         textColor: fondo,
         fontStyle: 'bold'
       }
@@ -94,7 +93,7 @@ export const ContratoPrint: React.FC<ContratoPrintProps> = ({ contrato }) => {
     doc.setTextColor(...fondo);
     doc.setFontSize(9);
     doc.text('KALLPA - Eventos y Alta Cocina', margin, pageHeight - 10);
-    doc.text(`Página ${doc.pageNo()}`, pageWidth - 20, pageHeight - 10, { align: 'right' });
+    doc.text(`Página ${doc.getNumberOfPages()}`, pageWidth - 20, pageHeight - 10, { align: 'right' });
 
     doc.save(`contrato-${contrato.codigo}.pdf`);
   };

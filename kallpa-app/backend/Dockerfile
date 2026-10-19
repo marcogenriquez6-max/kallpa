@@ -21,5 +21,6 @@ COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/src ./src
 COPY --from=build /app/dist ./dist
 EXPOSE 3000
-# Aplica migraciones pendientes y arranca la API
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main.js"]
+# Aplica migraciones, siembra los datos iniciales (solo si SEED_PASSWORD está
+# definido; el seed es idempotente) y arranca la API.
+CMD ["sh", "-c", "npx prisma migrate deploy && if [ -n \"$SEED_PASSWORD\" ]; then npx prisma db seed; fi && node dist/main.js"]

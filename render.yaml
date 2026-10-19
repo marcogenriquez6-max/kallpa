@@ -1,0 +1,38 @@
+# Blueprint de Render para Kallpa — plan gratis (costo: USD 0).
+#   1. Crear el proyecto en Supabase y copiar el DATABASE_URL
+#      (Connect → Session pooler → URI, puerto 5432, con ?sslmode=require).
+#   2. En Render: New + Blueprint → seleccionar este repositorio →
+#      completar las variables marcadas con sync: false.
+#   3. La API aplica migraciones y siembra los datos al arrancar.
+services:
+  - type: web
+    name: kallpa-api
+    runtime: docker
+    plan: free
+    region: virginia
+    dockerfilePath: ./kallpa-app/backend/Dockerfile
+    dockerContext: ./kallpa-app/backend
+    healthCheckPath: /api/salud
+    envVars:
+      - key: DATABASE_URL
+        sync: false   # URI de Supabase (Session pooler)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 10h
+      - key: SEED_PASSWORD
+        sync: false   # contraseña inicial de los usuarios (mínimo 8 caracteres)
+      - key: CORS_ORIGIN
+        value: https://kallpa-web.onrender.com
+
+  - type: web
+    name: kallpa-web
+    runtime: docker
+    plan: free
+    region: virginia
+    dockerfilePath: ./kallpa-app/deploy/web/Dockerfile
+    dockerContext: ./kallpa-app
+    healthCheckPath: /
+    envVars:
+      - key: API_URL
+        value: http://kallpa-api.onrender.com
