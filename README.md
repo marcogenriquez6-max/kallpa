@@ -1,3 +1,10 @@
+# Kallpa — Sistema de gestión
+
+Sistema de control de contratos, insumos, compras, producción y finanzas de
+**KALLPA — Eventos y Alta Cocina** (Oruro, Bolivia).
+
+- Aplicación (backend NestJS + frontend React + landing): [`kallpa-app/`](kallpa-app/)
+- Documentación del proyecto: [`kallpa-app/README.md`](kallpa-app/README.md)
 
 ## Despliegue en Render (plan gratis)
 
