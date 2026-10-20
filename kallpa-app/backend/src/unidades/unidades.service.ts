@@ -32,9 +32,15 @@ export class UnidadesService {
   async actualizar(codigo: string, dto: ActualizarUnidadDto, autorId: string) {
     const actual = await this.prisma.unidadMedida.findUniqueOrThrow({ where: { codigo } });
     return this.prisma.$transaction(async (tx) => {
-      const unidad = await tx.unidadMedida.update({ where: { codigo }, data: dto });
+      const unidad = await tx.unidadMedida.update({ where: { codigo }, data: dto as any });
       await this.bitacora.registrar(
-        { entidad: 'UnidadMedida', entidadId: codigo, accion: 'EDITAR', usuarioId: autorId, detalle: { antes: actual, despues: dto } },
+        {
+          entidad: 'UnidadMedida',
+          entidadId: codigo,
+          accion: 'EDITAR',
+          usuarioId: autorId,
+          detalle: { antes: { nombre: actual.nombre, tipo: actual.tipo, factorBase: actual.factorBase?.toString?.() }, despues: dto },
+        },
         tx,
       );
       return unidad;
