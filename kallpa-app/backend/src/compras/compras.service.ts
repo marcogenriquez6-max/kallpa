@@ -1,6 +1,7 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BitacoraService } from '../bitacora/bitacora.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { CrearCompraDto } from './compras.dto';
 
 @Injectable()
 export class ComprasService {
@@ -9,82 +10,60 @@ export class ComprasService {
     private readonly bitacora: BitacoraService,
   ) {}
 
-  async listar(_activo?: boolean) {
+  listar(filtro?: { proveedorId?: string }) {
+    const where: any = {};
+    if (filtro?.proveedorId) where.proveedorId = filtro.proveedorId;
     return this.prisma.compra.findMany({
-      orderBy: { fechaHora: 'desc' },
-      include: {
-        proveedor: { select: { razonSocial: true } },
-      },
+      where,
+      orderBy: { fechaEmision: 'desc' },
+      include: { proveedor: true, solicitud: true, items: { include: { insumo: true } } },
     });
   }
 
-  async crear(dto: any, autorId: string) {
-    return this.prisma.$transaction(async (tx) => {
-      const proveedor = await tx.proveedor.findUnique({
-        where: { id: dto.proveedorId },
-      });
-      if (!proveedor) throw new BadRequestException('El proveedor no existe');
+  async obtener(id: string) {
+    const compra = await this.prisma.compra.findUnique({
+      where: { id },
+      include: { proveedor: true, solicitud: true, items: { include: { insumo: true } } },
+    });
+    if (!compra) throw new NotFoundException('Compra no encontrada');
+    return compra;
+  }
 
+  async crear(dto: CrearCompraDto, autorId: string) {
+    return this.prisma.$transaction(async (tx) => {
+      let total = 0;
+      for (const item of dto.items) {
+        total += item.cantidad * item.precioUnitario;
+      }
       const compra = await tx.compra.create({
-        // @ts-ignore módulo en construcción: la compra aún no se liga a una solicitud
         data: {
           proveedorId: dto.proveedorId,
-          compradoPorId: autorId,
-          fechaHora: new Date(),
+          solicitudId: dto.solicitudId,
+          tipoComprobante: dto.tipoComprobante,
+          nroComprobante: dto.nroComprobante,
+          fechaEmision: dto.fechaEmision ? new Date(dto.fechaEmision) : new Date(),
+          descuento: dto.descuento ?? 0,
+          otrosCargos: dto.otrosCargos ?? 0,
+          total,
+          moneda: dto.moneda ?? 'BOB',
+          observaciones: dto.observaciones,
+          items: {
+            create: dto.items.map((item) => ({
+              insumoId: item.insumoId,
+              cantidad: item.cantidad,
+              precioUnitario: item.precioUnitario,
+              subtotal: item.cantidad * item.precioUnitario,
+              lote: item.lote,
+              fechaVencimiento: item.fechaVencimiento ? new Date(item.fechaVencimiento) : null,
+            })),
+          },
         },
       });
-      // @ts-ignore
-      await this.bitacora.registrar({
-        entidad: 'Compra',
-        entidadId: compra.id,
-        accion: 'CREAR',
-        usuarioId: autorId,
-        detalle: { proveedor: proveedor.razonSocial },
-      });
-      return compra;
-    });
-  }
-
-  async recepcionar(
-    compraId: string,
-    cantidad: number,
-    proveedorInsumoId: string,
-    observacion: string,
-    autorId: string,
-  ) {
-    const compra = await this.prisma.compra.findUniqueOrThrow({ where: { id: compraId } });
-    const insumo = await this.prisma.insumo.findUnique({ where: { id: proveedorInsumoId } });
-    if (!insumo) throw new NotFoundException('El insumo no existe');
-
-    return this.prisma.$transaction(async (tx) => {
-      const saldoActual = Number(insumo.stockActual);
-      const nuevoSaldo = saldoActual + cantidad;
-
-      // @ts-ignore
-      const nuevoMovimiento = await tx.movimientoInventario.create({
-        data: {
-          insumoId: insumo.id,
-          tipo: 'ENTRADA',
-          motivo: 'OTRO',
-          cantidad: cantidad,
-          saldo: nuevoSaldo,
-          costoUnitario: null,
-          contratoId: null,
-          referenciaTipo: 'COMPRA',
-          referenciaId: compra.id,
-          observacion: observacion,
-          registradoPorId: autorId,
-        },
-        include: {
-          insumo: { select: { id: true, nombre: true, unidadBaseCodigo: true } },
-          registradoPor: { select: { nombre: true } },
-        },
-      } as any);
-
-      // @ts-ignore
-      await tx.insumo.update({ where: { id: insumo.id }, data: { stockActual: nuevoSaldo } });
-
-      return { mensaje: 'Recepción registrada', nuevoSaldo, movimiento: nuevoMovimiento };
+      await this.bitacora.registrar(
+        { entidad: 'Compra', entidadId: compra.id, accion: 'CREAR', usuarioId: autorId, detalle: { total: compra.total } },
+        tx,
+      );
+      return this.obtener(compra.id);
     });
   }
 }

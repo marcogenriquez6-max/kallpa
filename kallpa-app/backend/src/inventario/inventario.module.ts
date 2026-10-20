@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
+import { PrismaModule } from '../prisma/prisma.module';
 import { InventarioController } from './inventario.controller';
 import { InventarioService } from './inventario.service';
 
-/**
- * Inventario: existencias por insumo con alerta de stock mínimo y kardex de
- * movimientos (entradas, salidas, mermas y ajustes) del almacén.
- */
 @Module({
+  imports: [PrismaModule],
   controllers: [InventarioController],
   providers: [InventarioService],
 })
