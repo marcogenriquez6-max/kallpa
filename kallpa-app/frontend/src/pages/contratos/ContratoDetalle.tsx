@@ -1,3 +1,5 @@
+import { pdfContrato } from '../../lib/pdf'
+import { Link as EnlaceFinanzas } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ContratosApi } from '../../lib/api'
@@ -185,14 +187,21 @@ export function ContratoDetalle() {
           </span>
         }
         acciones={
-          puedeEditar && contrato.estado === 'COTIZACION' ? (
-            <button
-              onClick={() => navegar(`/contratos/${id}/editar`)}
-              className={botonSecundario}
-            >
-              Editar contrato
+          <div className="flex flex-wrap gap-2">
+            <button onClick={() => pdfContrato(contrato)} className={botonSecundario}>
+              Descargar PDF
             </button>
-          ) : undefined
+            {['SERVIDO', 'LIQUIDADO', 'EN_PRODUCCION', 'INSUMOS_ENTREGADOS', 'EN_COMPRA'].includes(contrato.estado) && (
+              <EnlaceFinanzas to={`/finanzas?contrato=${id}`} className={botonSecundario}>
+                Liquidación
+              </EnlaceFinanzas>
+            )}
+            {puedeEditar && contrato.estado === 'COTIZACION' && (
+              <button onClick={() => navegar(`/contratos/${id}/editar`)} className={botonSecundario}>
+                Editar contrato
+              </button>
+            )}
+          </div>
         }
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

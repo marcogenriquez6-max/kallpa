@@ -23,10 +23,7 @@ services:
       - key: SEED_PASSWORD
         sync: false   # contraseña inicial de los usuarios (mínimo 8 caracteres)
       - key: CORS_ORIGIN
-        fromService:
-          type: web
-          name: kallpa-web
-          envVarKey: RENDER_EXTERNAL_URL
+        value: https://kallpa-web.onrender.com
 
   - type: web
     name: kallpa-web

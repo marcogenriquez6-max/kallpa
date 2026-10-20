@@ -1,3 +1,5 @@
+import { PanelCompras, PanelEntregas } from './Operaciones'
+import { pdfSolicitud } from '../../lib/pdf'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { InsumosApi, SolicitudesApi } from '../../lib/api'
@@ -372,8 +374,12 @@ export function SolicitudDetalle() {
           </span>
         }
         acciones={
-          puedeEditar && (solicitud.estado === 'BORRADOR' || ANULABLES.includes(solicitud.estado)) ? (
-            <div className="flex gap-2">
+          <div className="flex gap-2">
+            <button type="button" onClick={() => pdfSolicitud(solicitud)} className={botonSecundario}>
+              Descargar PDF
+            </button>
+            {puedeEditar && (solicitud.estado === 'BORRADOR' || ANULABLES.includes(solicitud.estado)) && (
+            <>
               {solicitud.estado === 'BORRADOR' && (
                 <button type="button" onClick={aprobar} className={botonPrimario}>
                   Aprobar
@@ -382,8 +388,9 @@ export function SolicitudDetalle() {
               <button type="button" onClick={anular} className={botonSecundario}>
                 Anular
               </button>
-            </div>
-          ) : undefined
+            </>
+            )}
+          </div>
         }
       >
         <div className="grid gap-3 sm:grid-cols-3">
@@ -509,6 +516,12 @@ export function SolicitudDetalle() {
           </div>
         )}
       </Tarjeta>
+    {solicitud.estado !== 'BORRADOR' && solicitud.estado !== 'ANULADA' && (
+        <>
+          <PanelCompras solicitud={solicitud} onCambio={() => void cargar()} />
+          <PanelEntregas solicitud={solicitud} onCambio={() => void cargar()} />
+        </>
+      )}
     </div>
   )
 }

@@ -3,19 +3,24 @@
 Sistema de control de contratos, insumos, compras, producción y finanzas de
 **KALLPA — Eventos y Alta Cocina** (Oruro, Bolivia).
 
-## Estado: v0.1 — Fase 1, esqueleto del backend
+## Estado: v1.0
 
 | Componente | Estado |
 |---|---|
-| Modelo de datos (26 tablas) | Listo |
-| Autenticación, roles y bitácora de auditoría | Listo |
-| Usuarios (administración por la gerente) | Listo |
-| Parámetros de negocio editables | Listo |
-| Datos iniciales: unidades, categorías, insumos, catálogo, socios | Listo |
-| Catálogo y fichas técnicas (API) | Siguiente |
-| Contratos, explosión de insumos, compras, producción, liquidación | Pendiente |
-| Sitio público (landing en `landing/`) | Listo, sin conexión a la API |
-| Frontend interno (React PWA) | Pendiente |
+| Modelo de datos, autenticación, roles y bitácora | Listo |
+| Usuarios y parámetros de negocio | Listo |
+| Catálogo: unidades, categorías, insumos, ítems y fichas técnicas con costeo | Listo |
+| Clientes, contratos, pagos y cambio de estado | Listo |
+| Proveedores e historial de precios | Listo |
+| Solicitud de insumos F-001 (explosión de fichas, aprobación, anulación) | Listo |
+| Inventario: existencias y kardex | Listo |
+| Compras sobre la solicitud (entrada a inventario + historial de precios) | Listo |
+| Entrega en cocina con acta de conformidad (salida de inventario) | Listo |
+| Producción por etapas y control de temperaturas | Listo |
+| Personal y remuneraciones por evento | Listo |
+| Finanzas: gastos, liquidación y cierre del contrato | Listo |
+| Reportes del periodo y documentos PDF (contrato, F-001, acta de entrega, liquidación, inventario, reporte de gestión) | Listo |
+| Panel interno React en `/sistema/` | Listo |
 
 ## Tecnología
 
@@ -54,6 +59,15 @@ npm run start:dev
 
 La carpeta `backend/prisma/migrations` que crea `migrate dev` debe guardarse en
 el repositorio: es la que Docker aplica en producción con `migrate deploy`.
+
+### Pruebas
+
+Con la base sembrada (`npx prisma db seed`) y `DATABASE_URL` en `backend/.env`:
+
+```bash
+cd backend
+npm test        # 67 pruebas: unitarias, API completa y flujo de un evento de punta a punta
+```
 
 ## Roles
 

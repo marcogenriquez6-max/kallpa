@@ -18,7 +18,12 @@ import { Proveedores } from './pages/proveedores/Proveedores'
 import { Inventario } from './pages/inventario/Inventario'
 import { Compras } from './pages/compras/Compras'
 import { SolicitudDetalle } from './pages/compras/SolicitudDetalle'
-import { Proximamente } from './pages/Proximamente'
+import { Entregas } from './pages/operaciones/Entregas'
+import { Produccion } from './pages/operaciones/Produccion'
+import { Calidad } from './pages/operaciones/Calidad'
+import { Personal } from './pages/operaciones/Personal'
+import { Finanzas } from './pages/operaciones/Finanzas'
+import { Reportes } from './pages/operaciones/Reportes'
 import { NoEncontrado } from './pages/NoEncontrado'
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -125,12 +130,12 @@ export function App() {
                   </RequireRole>
                 }
               />
-              <Route path="entregas" element={<Proximamente modulo="Entrega de insumos" />} />
-              <Route path="produccion" element={<Proximamente modulo="Producción y cocina" />} />
-              <Route path="calidad" element={<Proximamente modulo="Control de calidad" />} />
-              <Route path="personal" element={<Proximamente modulo="Personal" />} />
-              <Route path="finanzas" element={<Proximamente modulo="Finanzas y pagos" />} />
-              <Route path="reportes" element={<Proximamente modulo="Reportes" />} />
+              <Route path="entregas" element={<Entregas />} />
+              <Route path="produccion" element={<Produccion />} />
+              <Route path="calidad" element={<Calidad />} />
+              <Route path="personal" element={<RequireRole roles={['GERENTE', 'CONSULTA']}><Personal /></RequireRole>} />
+              <Route path="finanzas" element={<RequireRole roles={['GERENTE', 'CONSULTA']}><Finanzas /></RequireRole>} />
+              <Route path="reportes" element={<RequireRole roles={['GERENTE', 'CONSULTA']}><Reportes /></RequireRole>} />
               <Route path="*" element={<NoEncontrado />} />
             </Route>
           </Route>

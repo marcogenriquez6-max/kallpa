@@ -1,28 +1,23 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { UsuarioActual } from '../auth/decorators/usuario-actual.decorator';
 import { UsuarioSesion } from '../common/usuario-sesion';
-import { Roles } from '../auth/decorators/roles.decorator';
 import { Rol } from '../generated/prisma/enums';
-import { ComprasService } from './compras.service';
 import { CrearCompraDto } from './compras.dto';
+import { ComprasService } from './compras.service';
 
 @Controller('compras')
 export class ComprasController {
   constructor(private readonly compras: ComprasService) {}
 
   @Get()
-  listar(@Query('proveedorId') proveedorId?: string) {
-    return this.compras.listar({ proveedorId });
-  }
-
-  @Get(':id')
-  obtener(@Param('id', ParseUUIDPipe) id: string) {
-    return this.compras.obtener(id);
+  listar(@Query('solicitudId') solicitudId?: string, @Query('proveedorId') proveedorId?: string) {
+    return this.compras.listar({ solicitudId: solicitudId || undefined, proveedorId: proveedorId || undefined });
   }
 
   @Post()
   @Roles(Rol.GERENTE, Rol.LOGISTICA)
-  crear(@Body() dto: CrearCompraDto, @UsuarioActual() autor: UsuarioSesion) {
-    return this.compras.crear(dto, autor.id);
+  crear(@Body() dto: CrearCompraDto, @UsuarioActual() u: UsuarioSesion) {
+    return this.compras.crear(dto, u.id);
   }
 }

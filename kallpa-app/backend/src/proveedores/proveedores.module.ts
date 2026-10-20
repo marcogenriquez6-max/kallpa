@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { BitacoraModule } from '../bitacora/bitacora.module';
-import { PrismaModule } from '../prisma/prisma.module';
 import { ProveedoresController } from './proveedores.controller';
 import { ProveedoresService } from './proveedores.service';
 
+/**
+ * Proveedores e historial de precios por insumo, que alimenta el costeo
+ * teórico de las fichas técnicas y las compras.
+ */
 @Module({
-  imports: [PrismaModule, BitacoraModule],
   controllers: [ProveedoresController],
   providers: [ProveedoresService],
 })

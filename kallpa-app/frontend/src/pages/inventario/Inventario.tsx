@@ -1,3 +1,4 @@
+import { pdfInventario } from '../../lib/pdf'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CategoriasApi, ContratosApi, InventarioApi } from '../../lib/api'
 import type { DatosMovimiento } from '../../lib/api'
@@ -363,11 +364,16 @@ export function Inventario() {
       <Tarjeta
         titulo="Inventario"
         acciones={
-          puedeEditar && !mostrarForm ? (
-            <button onClick={() => abrirForm()} className={botonPrimario}>
-              + Registrar movimiento
+          <div className="flex flex-wrap gap-2">
+            <button onClick={() => existencias && pdfInventario(existencias)} className={botonSecundario}>
+              Descargar PDF
             </button>
-          ) : undefined
+            {puedeEditar && !mostrarForm && (
+              <button onClick={() => abrirForm()} className={botonPrimario}>
+                + Registrar movimiento
+              </button>
+            )}
+          </div>
         }
       >
         <div className="space-y-4">
