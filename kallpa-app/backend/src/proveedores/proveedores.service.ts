@@ -1,11 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { BitacoraService } from '../bitacora/bitacora.service';
-import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { RegistrarPrecioDto } from './dto/precio.dto';
-import { ActualizarProveedorDto, CrearProveedorDto } from './dto/proveedor.dto';
+import { ActualizarProveedorDto, AgregarProveedorInsumoDto, CrearProveedorDto } from './proveedores.dto';
 
-/** Proveedores e historial de precios por insumo. */
 @Injectable()
 export class ProveedoresService {
   constructor(
@@ -13,72 +10,31 @@ export class ProveedoresService {
     private readonly bitacora: BitacoraService,
   ) {}
 
-  listar(filtro: { activo?: boolean; q?: string }) {
-    return this.prisma.proveedor.findMany({
-      where: {
-        activo: filtro.activo,
-        ...(filtro.q
-          ? {
-              OR: [
-                { razonSocial: { contains: filtro.q, mode: 'insensitive' as const } },
-                { nombreContacto: { contains: filtro.q, mode: 'insensitive' as const } },
-                { nitOCi: { contains: filtro.q } },
-                { telefono: { contains: filtro.q } },
-                { whatsapp: { contains: filtro.q } },
-                { ubicacionMercado: { contains: filtro.q, mode: 'insensitive' as const } },
-              ],
-            }
-          : {}),
-      },
-      orderBy: { razonSocial: 'asc' },
-      include: { _count: { select: { insumos: true, compras: true } } },
-    });
+  listar(filtro?: { activo?: string }) {
+    const where: any = {};
+    if (filtro?.activo !== undefined && filtro?.activo !== '') where.activo = filtro.activo === 'true';
+    return this.prisma.proveedor.findMany({ where, orderBy: { razonSocial: 'asc' } });
   }
 
-  obtener(id: string) {
+  async obtener(id: string) {
     return this.prisma.proveedor.findUniqueOrThrow({
       where: { id },
       include: {
-        insumos: {
-          orderBy: { fecha: 'desc' },
-          take: 200,
-          include: {
-            insumo: {
-              select: { id: true, nombre: true, unidadBaseCodigo: true, categoriaId: true },
-            },
-          },
-        },
-        _count: { select: { compras: true } },
+        insumos: { include: { insumo: { include: { unidadCompraRef: true } } } },
+        compras: { orderBy: { fechaEmision: 'desc' }, take: 20 },
       },
     });
   }
 
   async crear(dto: CrearProveedorDto, autorId: string) {
+    if (dto.nit) {
+      const existe = await this.prisma.proveedor.findFirst({ where: { nit: dto.nit } });
+      if (existe) throw new ConflictException('Ya existe un proveedor con ese NIT');
+    }
     return this.prisma.$transaction(async (tx) => {
-      const proveedor = await tx.proveedor.create({
-        data: {
-          razonSocial: dto.razonSocial.trim(),
-          nombreContacto: dto.nombreContacto?.trim() || null,
-          nitOCi: dto.nitOCi?.trim() || null,
-          telefono: dto.telefono?.trim() || null,
-          whatsapp: dto.whatsapp?.trim() || null,
-          direccion: dto.direccion?.trim() || null,
-          ubicacionMercado: dto.ubicacionMercado?.trim() || null,
-          condicionPago: dto.condicionPago,
-          emiteFactura: dto.emiteFactura ?? false,
-          calificacion: dto.calificacion ?? null,
-          observaciones: dto.observaciones?.trim() || null,
-          activo: dto.activo ?? true,
-        },
-      });
+      const proveedor = await tx.proveedor.create({ data: dto });
       await this.bitacora.registrar(
-        {
-          entidad: 'Proveedor',
-          entidadId: proveedor.id,
-          accion: 'CREAR',
-          usuarioId: autorId,
-          detalle: { razonSocial: proveedor.razonSocial },
-        },
+        { entidad: 'Proveedor', entidadId: proveedor.id, accion: 'CREAR', usuarioId: autorId, detalle: { razonSocial: proveedor.razonSocial } },
         tx,
       );
       return proveedor;
@@ -86,103 +42,46 @@ export class ProveedoresService {
   }
 
   async actualizar(id: string, dto: ActualizarProveedorDto, autorId: string) {
+    const actual = await this.prisma.proveedor.findUniqueOrThrow({ where: { id } });
+    if (dto.nit && dto.nit !== actual.nit) {
+      const existe = await this.prisma.proveedor.findFirst({ where: { nit: dto.nit } });
+      if (existe) throw new ConflictException('Ya existe un proveedor con ese NIT');
+    }
     return this.prisma.$transaction(async (tx) => {
-      const anterior = await tx.proveedor.findUniqueOrThrow({ where: { id } });
-
-      const data: Prisma.ProveedorUncheckedUpdateInput = {};
-      if (dto.razonSocial !== undefined) data.razonSocial = dto.razonSocial.trim();
-      if (dto.nombreContacto !== undefined) data.nombreContacto = dto.nombreContacto.trim() || null;
-      if (dto.nitOCi !== undefined) data.nitOCi = dto.nitOCi.trim() || null;
-      if (dto.telefono !== undefined) data.telefono = dto.telefono.trim() || null;
-      if (dto.whatsapp !== undefined) data.whatsapp = dto.whatsapp.trim() || null;
-      if (dto.direccion !== undefined) data.direccion = dto.direccion.trim() || null;
-      if (dto.ubicacionMercado !== undefined) {
-        data.ubicacionMercado = dto.ubicacionMercado.trim() || null;
-      }
-      if (dto.condicionPago !== undefined) data.condicionPago = dto.condicionPago;
-      if (dto.emiteFactura !== undefined) data.emiteFactura = dto.emiteFactura;
-      if (dto.calificacion !== undefined) data.calificacion = dto.calificacion;
-      if (dto.observaciones !== undefined) data.observaciones = dto.observaciones.trim() || null;
-      if (dto.activo !== undefined) data.activo = dto.activo;
-
-      const proveedor = await tx.proveedor.update({ where: { id }, data });
+      const proveedor = await tx.proveedor.update({ where: { id }, data: dto });
       await this.bitacora.registrar(
-        {
-          entidad: 'Proveedor',
-          entidadId: id,
-          accion: 'EDITAR',
-          usuarioId: autorId,
-          detalle: {
-            antes: { razonSocial: anterior.razonSocial, activo: anterior.activo },
-            despues: dto as unknown as Prisma.InputJsonValue,
-          },
-        },
+        { entidad: 'Proveedor', entidadId: id, accion: 'EDITAR', usuarioId: autorId, detalle: { antes: { razonSocial: actual.razonSocial }, despues: dto } },
         tx,
       );
       return proveedor;
     });
   }
 
-  // ------------------------------------------------------------------
-  // Historial de precios
-  // ------------------------------------------------------------------
-
-  listarPrecios(id: string) {
-    return this.prisma.proveedorInsumo.findMany({
-      where: { proveedorId: id },
-      orderBy: { fecha: 'desc' },
-      include: { insumo: { select: { id: true, nombre: true, unidadBaseCodigo: true } } },
-    });
-  }
-
-  async registrarPrecio(id: string, dto: RegistrarPrecioDto, autorId: string) {
-    const [proveedor, insumo] = await Promise.all([
-      this.prisma.proveedor.findUnique({ where: { id } }),
-      this.prisma.insumo.findUnique({ where: { id: dto.insumoId } }),
-    ]);
-    if (!proveedor) throw new BadRequestException('El proveedor no existe');
-    if (!insumo) throw new BadRequestException('El insumo no existe');
-
+  async agregarInsumo(id: string, dto: AgregarProveedorInsumoDto, autorId: string) {
+    await this.prisma.proveedor.findUniqueOrThrow({ where: { id } });
+    await this.prisma.insumo.findUniqueOrThrow({ where: { id: dto.insumoId } });
     return this.prisma.$transaction(async (tx) => {
-      const precio = await tx.proveedorInsumo.create({
-        data: {
-          proveedorId: id,
-          insumoId: dto.insumoId,
-          precioUnitario: dto.precioUnitario,
-        },
-        include: {
-          insumo: { select: { id: true, nombre: true, unidadBaseCodigo: true } },
-        },
+      const rel = await tx.proveedorInsumo.upsert({
+        where: { proveedorId_insumoId: { proveedorId: id, insumoId: dto.insumoId } },
+        create: { proveedorId: id, insumoId: dto.insumoId, ...dto },
+        update: { ...dto },
       });
       await this.bitacora.registrar(
-        {
-          entidad: 'Proveedor',
-          entidadId: id,
-          accion: 'EDITAR',
-          usuarioId: autorId,
-          detalle: {
-            precioIns: { insumo: insumo.nombre, precioUnitario: dto.precioUnitario },
-          },
-        },
+        { entidad: 'ProveedorInsumo', entidadId: rel.id, accion: 'CREAR', usuarioId: autorId, detalle: { proveedorId: id, insumoId: dto.insumoId } },
         tx,
       );
-      return precio;
+      return this.obtener(id);
     });
   }
 
-  /** Último precio registrado por cada proveedor para un insumo (para comparar). */
-  async preciosPorInsumo(insumoId: string) {
-    const filas = await this.prisma.proveedorInsumo.findMany({
-      where: { insumoId },
-      orderBy: { fecha: 'desc' },
-      include: {
-        proveedor: { select: { id: true, razonSocial: true, activo: true } },
-      },
+  async quitarInsumo(id: string, insumoId: string, autorId: string) {
+    await this.prisma.$transaction(async (tx) => {
+      await tx.proveedorInsumo.delete({ where: { proveedorId_insumoId: { proveedorId: id, insumoId } } });
+      await this.bitacora.registrar(
+        { entidad: 'ProveedorInsumo', entidadId: `${id}-${insumoId}`, accion: 'ELIMINAR', usuarioId: autorId, detalle: {} },
+        tx,
+      );
     });
-    const ultimo = new Map<string, (typeof filas)[number]>();
-    for (const fila of filas) {
-      if (!ultimo.has(fila.proveedorId)) ultimo.set(fila.proveedorId, fila);
-    }
-    return [...ultimo.values()].sort((a, b) => Number(a.precioUnitario) - Number(b.precioUnitario));
+    return this.obtener(id);
   }
 }

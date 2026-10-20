@@ -1,43 +1,18 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseBoolPipe,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { UsuarioActual } from '../auth/decorators/usuario-actual.decorator';
 import { UsuarioSesion } from '../common/usuario-sesion';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { Rol } from '../generated/prisma/enums';
-import { RegistrarPrecioDto } from './dto/precio.dto';
-import { ActualizarProveedorDto, CrearProveedorDto } from './dto/proveedor.dto';
 import { ProveedoresService } from './proveedores.service';
+import { ActualizarProveedorDto, AgregarProveedorInsumoDto, CrearProveedorDto } from './proveedores.dto';
 
 @Controller('proveedores')
 export class ProveedoresController {
   constructor(private readonly proveedores: ProveedoresService) {}
 
   @Get()
-  listar(
-    @Query('activo', new ParseBoolPipe({ optional: true })) activo?: boolean,
-    @Query('q') q?: string,
-  ) {
-    return this.proveedores.listar({ activo, q: q?.trim() || undefined });
-  }
-
-  // Ruta específica declarada antes de ':id' para que no la capture.
-  @Get('precios-insumo/:insumoId')
-  preciosPorInsumo(@Param('insumoId', ParseUUIDPipe) insumoId: string) {
-    return this.proveedores.preciosPorInsumo(insumoId);
-  }
-
-  @Get(':id/precios')
-  listarPrecios(@Param('id', ParseUUIDPipe) id: string) {
-    return this.proveedores.obtener(id).then(() => this.proveedores.listarPrecios(id));
+  listar(@Query('activo') activo?: string) {
+    return this.proveedores.listar({ activo });
   }
 
   @Get(':id')
@@ -61,13 +36,23 @@ export class ProveedoresController {
     return this.proveedores.actualizar(id, dto, autor.id);
   }
 
-  @Post(':id/precios')
+  @Post(':id/insumos')
   @Roles(Rol.GERENTE, Rol.LOGISTICA)
-  registrarPrecio(
+  agregarInsumo(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: RegistrarPrecioDto,
+    @Body() dto: AgregarProveedorInsumoDto,
     @UsuarioActual() autor: UsuarioSesion,
   ) {
-    return this.proveedores.registrarPrecio(id, dto, autor.id);
+    return this.proveedores.agregarInsumo(id, dto, autor.id);
+  }
+
+  @Delete(':id/insumos/:insumoId')
+  @Roles(Rol.GERENTE, Rol.LOGISTICA)
+  quitarInsumo(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('insumoId', ParseUUIDPipe) insumoId: string,
+    @UsuarioActual() autor: UsuarioSesion,
+  ) {
+    return this.proveedores.quitarInsumo(id, insumoId, autor.id);
   }
 }
