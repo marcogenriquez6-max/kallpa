@@ -250,7 +250,6 @@ footer .logo .lg-osc{display:block}
 .tk{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:210px;gap:12px}
 .tk img{display:block;width:100%;height:100%;object-fit:cover;border-radius:2px;background:#2b0a14;transition:filter .4s,box-shadow .4s}
 .tk img:hover{filter:brightness(1.08);box-shadow:0 10px 26px rgba(0,0,0,.35)}
-.tk img:nth-child(1),.tk img:nth-child(4){grid-row:span 2}
 @media(max-width:700px){.tk{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}}
 .cl{padding:50px 0;text-align:center}
 .cl h2{font-size:24px;font-weight:600}
@@ -338,11 +337,34 @@ header.scrolled{box-shadow:0 14px 34px -22px rgba(43,16,32,.6)}
 .cg.lin .cd{box-shadow:var(--sh)}
 .sv .cta{margin:40px 0 20px;font-size:clamp(18px,2.2vw,22px)}
 /* galeria */
-.ga{padding:72px 0}
-.tk{gap:16px;grid-auto-rows:240px}
-.tk img{border-radius:12px;box-shadow:0 10px 26px -18px rgba(43,16,32,.5)}
-.tk img:hover{transform:scale(1.03)}
-@media(max-width:700px){.tk{grid-auto-rows:150px}}
+.ga{padding:84px 0 92px}
+.ga h2{font-size:clamp(34px,5vw,48px)}
+.ga .sub{max-width:620px;margin:0 auto 34px;color:var(--menu);font-size:17px}
+.tk{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;grid-auto-flow:dense;gap:14px}
+.tk a{position:relative;display:block;overflow:hidden;border-radius:16px;background:#2b0a14;box-shadow:0 20px 40px -26px rgba(43,16,32,.7);cursor:zoom-in}
+.tk a:nth-child(1){grid-column:span 2;grid-row:span 2}
+.tk a:nth-child(5){grid-column:span 2}
+.tk a img{width:100%;height:100%;display:block;object-fit:cover;border-radius:0;box-shadow:none;transform:scale(1.01);transition:transform .7s cubic-bezier(.22,.7,.3,1),filter .4s}
+.tk a::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,5,9,0) 50%,rgba(20,5,9,.78));opacity:0;transition:opacity .35s}
+.tk a span{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;color:#fff;font-size:13px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;text-align:left;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.tk a:hover img,.tk a:focus-visible img{transform:scale(1.07);filter:saturate(1.06) brightness(1.04)}
+.tk a:hover::after,.tk a:focus-visible::after,.tk a:hover span,.tk a:focus-visible span{opacity:1;transform:none}
+@media(max-width:900px){.tk{grid-template-columns:repeat(3,1fr);grid-auto-rows:180px}}
+@media(max-width:700px){.tk{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;gap:10px}.tk a span{font-size:11px;left:12px;bottom:10px}}
+/* visor de la galería */
+.lb{position:fixed;inset:0;z-index:120;display:none;place-items:center;padding:20px;background:rgba(12,3,8,.95)}
+.lb.on{display:grid;animation:lbin .28s ease-out}
+@keyframes lbin{from{opacity:0}to{opacity:1}}
+.lb figure{margin:0;display:grid;justify-items:center;gap:14px;max-width:min(1100px,92vw)}
+.lb figure img{max-width:100%;max-height:min(78vh,820px);width:auto;height:auto;border-radius:12px;box-shadow:0 30px 80px -30px #000}
+.lb figcaption{color:#f3e9ee;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;opacity:.85}
+.lb button{position:absolute;border:0;cursor:pointer;color:#2b1020;background:linear-gradient(135deg,var(--gold),var(--gold-2));width:46px;height:46px;border-radius:50%;font-size:24px;line-height:1;display:grid;place-items:center;box-shadow:0 10px 26px -10px rgba(0,0,0,.7);transition:transform .25s}
+.lb button:hover{transform:scale(1.08)}
+.lb .lb-x{top:calc(16px + env(safe-area-inset-top,0px));right:16px}
+.lb .lb-p{left:16px;top:50%;margin-top:-23px}
+.lb .lb-n{right:16px;top:50%;margin-top:-23px}
+body.lb-open{overflow:hidden}
+@media(max-width:600px){.lb{padding:12px}.lb button{width:40px;height:40px}.lb .lb-p{left:8px}.lb .lb-n{right:8px}}
 /* eventos */
 .cl{padding:72px 0}
 .cl h2{font-size:clamp(24px,3.6vw,34px)}
@@ -410,7 +432,7 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
 <div class="hero" id="inicio">
   <div class="sl on"><img src="img/foto-1.webp" srcset="img/foto-1-640.webp 640w, img/foto-1.webp 1280w" sizes="100vw" width="1280" height="960" alt="Alta cocina de KALLPA para eventos" fetchpriority="high" decoding="async"><div class="w"><p class="eb">Eventos y Alta Cocina · Oruro</p><h2><b>Alta cocina</b> para tus eventos</h2><p>La fuerza de los Andes, servida con distinción</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
   <div class="sl"><img src="img/foto-3.webp" srcset="img/foto-3-640.webp 640w, img/foto-3.webp 1280w" sizes="100vw" width="1280" height="960" alt="Montaje de evento KALLPA" loading="lazy" decoding="async"><div class="w"><p class="eb">Sociales · Folklóricos · Institucionales</p><h2><b>Eventos</b> sociales, folklóricos e institucionales</h2><p>Menús completos con cocina propia y servicio de garzones para cada ocasión</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
-  <div class="sl"><img src="img/foto-5.webp" srcset="img/foto-5-640.webp 640w, img/foto-5.webp 960w" sizes="100vw" width="960" height="1280" alt="Mesa servida por KALLPA" loading="lazy" decoding="async"><div class="w"><p class="eb">Clásica · Reserva · Gran Reserva</p><h2><b>Tres líneas</b> de menú para elegir</h2><p>Clásica, Reserva y Gran Reserva, con guarniciones, postres, coctelería y bocaditos</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
+  <div class="sl"><img src="img/foto-5.webp" srcset="img/foto-5-640.webp 640w, img/foto-5.webp 1280w" sizes="100vw" width="1280" height="960" alt="Mesa servida por KALLPA" loading="lazy" decoding="async"><div class="w"><p class="eb">Clásica · Reserva · Gran Reserva</p><h2><b>Tres líneas</b> de menú para elegir</h2><p>Clásica, Reserva y Gran Reserva, con guarniciones, postres, coctelería y bocaditos</p><a class="bt hbt" href="#contacto">Cotizar mi evento</a></div></div>
   <div class="dots" id="dots"></div>
   <div class="soc"><span>Facebook</span><span>Instagram</span></div>
   <div class="cue" aria-hidden="true">⌄</div>
@@ -437,7 +459,7 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
     <div><img src="img/foto-1-640.webp" width="640" height="480" alt="Evento servido con puntualidad por KALLPA" loading="lazy" decoding="async"><span>Puntualidad</span></div>
     <div><img src="img/foto-2-640.webp" width="640" height="480" alt="Servicio personalizado de KALLPA" loading="lazy" decoding="async"><span>Servicio personalizado</span></div>
     <div><img src="img/foto-4-640.webp" width="640" height="480" alt="Pasión por la cocina en KALLPA" loading="lazy" decoding="async"><span>Pasión</span></div>
-    <div><img src="img/foto-5-640.webp" width="640" height="853" alt="Calidad de KALLPA" loading="lazy" decoding="async"><span>Calidad</span></div>
+    <div><img src="img/foto-5-640.webp" width="640" height="480" alt="Calidad de KALLPA" loading="lazy" decoding="async"><span>Calidad</span></div>
   </div>
 </div></section>
 
@@ -467,15 +489,19 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
   <a class="bt" href="#contacto">Solicita tu cotización</a>
 </div></section>
 
-<section class="ga"><div class="w">
+<section class="ga" id="galeria"><div class="w">
   <h2>Galería</h2>
+  <div class="dv"></div>
+  <p class="sub">Un vistazo a nuestra cocina, nuestros montajes y el servicio que llevamos a tu evento.</p>
   <div class="tk">
-    <img src="img/foto-1-640.webp" width="640" height="480" alt="Montaje de evento KALLPA" loading="lazy" decoding="async">
-    <img src="img/foto-2-640.webp" width="640" height="480" alt="Plato de fondo KALLPA" loading="lazy" decoding="async">
-    <img src="img/foto-3-640.webp" width="640" height="480" alt="Mesa servida KALLPA" loading="lazy" decoding="async">
-    <img src="img/foto-4-640.webp" width="640" height="480" alt="Coctelería KALLPA" loading="lazy" decoding="async">
-    <img src="img/foto-5-640.webp" width="640" height="853" alt="Postres KALLPA" loading="lazy" decoding="async">
-    <img src="img/foto-1-640.webp" width="640" height="480" alt="Servicio de garzones KALLPA" loading="lazy" decoding="async">
+    <a href="img/foto-1.webp" data-cap="Alta cocina" aria-label="Ampliar foto: Alta cocina"><img src="img/foto-1-640.webp" width="640" height="480" alt="Alta cocina de KALLPA para eventos" loading="lazy" decoding="async"><span>Alta cocina</span></a>
+    <a href="img/foto-2.webp" data-cap="Cocina propia" aria-label="Ampliar foto: Cocina propia"><img src="img/foto-2-640.webp" width="640" height="480" alt="Plato preparado en la cocina de KALLPA" loading="lazy" decoding="async"><span>Cocina propia</span></a>
+    <a href="img/foto-3.webp" data-cap="Montaje" aria-label="Ampliar foto: Montaje"><img src="img/foto-3-640.webp" width="640" height="480" alt="Montaje de evento de KALLPA" loading="lazy" decoding="async"><span>Montaje</span></a>
+    <a href="img/foto-4.webp" data-cap="Servicio" aria-label="Ampliar foto: Servicio"><img src="img/foto-4-640.webp" width="640" height="480" alt="Servicio de KALLPA durante el evento" loading="lazy" decoding="async"><span>Servicio</span></a>
+    <a href="img/foto-5.webp" data-cap="Detalles de mesa" aria-label="Ampliar foto: Detalles de mesa"><img src="img/foto-5-640.webp" width="640" height="480" alt="Detalles de mesa preparados por KALLPA" loading="lazy" decoding="async"><span>Detalles de mesa</span></a>
+    <a href="img/foto-6.webp" data-cap="Celebración" aria-label="Ampliar foto: Celebración"><img src="img/foto-6-640.webp" width="640" height="480" alt="Celebración acompañada por KALLPA" loading="lazy" decoding="async"><span>Celebración</span></a>
+    <a href="img/foto-7.webp" data-cap="Mesa servida" aria-label="Ampliar foto: Mesa servida"><img src="img/foto-7-640.webp" width="640" height="480" alt="Mesa servida por KALLPA" loading="lazy" decoding="async"><span>Mesa servida</span></a>
+    <a href="img/foto-8.webp" data-cap="Brindis" aria-label="Ampliar foto: Brindis"><img src="img/foto-8-640.webp" width="640" height="480" alt="Brindis en un evento de KALLPA" loading="lazy" decoding="async"><span>Brindis</span></a>
   </div>
 </div></section>
 
@@ -529,6 +555,13 @@ footer{background:linear-gradient(135deg,#7a0039,#880042 55%,#5c0030)}
 <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
 <a class="up" id="up" href="#inicio" aria-label="Volver arriba">↑</a>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Galería de fotos" hidden>
+  <button class="lb-x" id="lbx" aria-label="Cerrar">×</button>
+  <button class="lb-p" id="lbp" aria-label="Foto anterior">‹</button>
+  <figure><img id="lbi" alt=""><figcaption id="lbc"></figcaption></figure>
+  <button class="lb-n" id="lbn" aria-label="Foto siguiente">›</button>
+</div>
+
 <script>
 /* WhatsApp de Kallpa, formato internacional sin "+" */
 var NUM="59171119111";
@@ -560,6 +593,45 @@ document.getElementById("wa").href="https://wa.me/"+NUM+"?text="+encodeURICompon
     [].slice.call(sel).forEach(function(t){t.classList.add("rv");io.observe(t);});
   }
   if(up){up.addEventListener("click",function(e){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"});});}
+})();
+
+/* galería: visor a pantalla completa */
+(function(){
+  var lb=document.getElementById("lb"),im=document.getElementById("lbi"),cap=document.getElementById("lbc"),
+      x=document.getElementById("lbx"),p=document.getElementById("lbp"),n=document.getElementById("lbn"),
+      links=[].slice.call(document.querySelectorAll(".tk a")),k=0,last=null;
+  if(!lb||!links.length)return;
+  function show(j){
+    k=(j+links.length)%links.length;
+    var a=links[k];
+    im.src=a.getAttribute("href");
+    im.alt=a.querySelector("img").alt;
+    var t=a.getAttribute("data-cap")||"";
+    cap.textContent=t;cap.style.display=t?"":"none";
+  }
+  function open(j){
+    last=document.activeElement;
+    show(j);
+    lb.hidden=false;lb.classList.add("on");
+    document.body.classList.add("lb-open");
+    x.focus();
+  }
+  function close(){
+    lb.classList.remove("on");lb.hidden=true;
+    document.body.classList.remove("lb-open");
+    if(last)last.focus();
+  }
+  links.forEach(function(a,j){a.addEventListener("click",function(e){e.preventDefault();open(j)})});
+  x.onclick=close;
+  p.onclick=function(e){e.stopPropagation();show(k-1)};
+  n.onclick=function(e){e.stopPropagation();show(k+1)};
+  lb.addEventListener("click",function(e){if(e.target===lb)close()});
+  document.addEventListener("keydown",function(e){
+    if(!lb.classList.contains("on"))return;
+    if(e.key==="Escape")close();
+    else if(e.key==="ArrowLeft")show(k-1);
+    else if(e.key==="ArrowRight")show(k+1);
+  });
 })();
 </script>
 </body>
